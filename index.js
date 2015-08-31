@@ -36,11 +36,23 @@ var io = require('socket.io')(server.listener);
 
 var bridgeEventSocket = io.on('connection', function (socket) {
   socket.emit('bridge data', bridgeStatuses);
-  console.log("hi!");
+  wlog.info("[%s] %s from %s",
+                socket.handshake.address,
+                "socket",
+                socket.handshake.headers.referer
+  );
 });
 
 server.register(plugins, function (err) {
   if (err) wlog.error(err);
+  server.on('response', function (request) {
+    wlog.info("[%s] %s %s - %s",
+                  request.info.remoteAddress,
+                  request.method,
+                  request.url.path,
+                  request.response.statusCode
+    );
+  });
 });
 
 server.auth.strategy('simple', 'bearer-access-token', {

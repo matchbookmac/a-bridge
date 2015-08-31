@@ -10,6 +10,7 @@ var
   headers     = argv.H || argv.headers,
   liftTime    = argv.l || argv.liftTime,
   method      = argv.m || argv.method,
+  // message     = argv.M || argv.message,
   port        = argv.p || argv.port,
   path        = argv.P || argv.path,
   timeStamp   = argv.t || argv.timestamp || new Date(),

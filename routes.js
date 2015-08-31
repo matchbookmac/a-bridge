@@ -79,6 +79,20 @@ module.exports = function (bridgeEventSocket) {
 
     {
       method: 'GET',
+      path: '/bridges/schedule',
+      config: {
+        handler: {
+          view: "form"
+        },
+        // auth: 'simple',
+        description: 'Receives actual bridge lift events from l-bridge. Stores payload in database, and notifies users of a lift event',
+        notes: 'Requires an object with the keys `bridge`, `status`, and `timeStamp` that are a string, boolean, and date respectively',
+        tags: ['api', 'secure', 'notification']
+      }
+    },
+
+    {
+      method: 'GET',
       path: '/bridges/events/actual',
       config: {
         pre:[{ method: getBridgeEvents, assign: 'data' }],
@@ -121,7 +135,7 @@ module.exports = function (bridgeEventSocket) {
         handler: function(request, reply) {
           reply.view('scheduled', { scheduledEvents: request.pre.data });
         },
-        auth: 'simple',
+        // auth: 'simple',
         description: 'Lists scheduled bridge lift events from l-bridge',
         notes: 'Array of objects with the keys `bridge`, `type`, `requestTime`, and `estimatedLiftTime`',
         tags: ['api', 'secure']
