@@ -67,6 +67,7 @@ body {
   height:150px;
 }
 
+<<<<<<< HEAD
 #bridges {
 }
 
@@ -91,6 +92,8 @@ body {
   border-color: #5e8dc4;
 }
 
+=======
+>>>>>>> 11ad4b365fdb107b7478a6d28d5477f682aabda9
 .bridge {
   vertical-align: middle;
   font-size: 30px;
@@ -102,6 +105,7 @@ body {
 }
 
 .led {
+<<<<<<< HEAD
     margin-top: 5px;
     margin-bottom: 5px;
     vertical-align: text-bottom;
@@ -117,6 +121,18 @@ body {
     text-align: center;
     text-shadow: none;
     font-weight: lighter;
+=======
+  clear: both;
+  float: right;
+  display: inline-block;
+  margin-top: 20px;
+  margin-right: 20px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.25);
+  box-shadow: #000 0 -1px 6px 1px;
+>>>>>>> 11ad4b365fdb107b7478a6d28d5477f682aabda9
 }
 
 .content {

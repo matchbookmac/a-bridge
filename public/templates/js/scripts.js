@@ -19,12 +19,21 @@ socket.on('bridge data', function (data) {
   console.log("foo");
   $.each(data, function (bridge) {
     $("#bridges").append(
+<<<<<<< HEAD
       "<div class='bridge-info'>" +
       "<span class='led " +
         (
           data[bridge].status ? "led-red'> UP </span>"
                               : "led-green'> DOWN </span>"
         ) + "<span class='bridge' data-role='content'>" + bridge + "</span>" + "</div>"
+=======
+      "<div><span class='led " +
+        (
+          data[bridge].status ? "led-red"
+                              : "led-green"
+        ) + "'></span>" + "<span class='bridge' data-role='content'>" +
+        bridge + "</span></div>" + "<br><br>"
+>>>>>>> 11ad4b365fdb107b7478a6d28d5477f682aabda9
     );
   });
 });
