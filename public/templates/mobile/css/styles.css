@@ -14,6 +14,20 @@ body {
   font-family: "Helvetica Neue",Helvetica,Arial,Geneva,"Lucida Grande",sans-serif;
 }
 
+#feed-page {
+  display: none;
+}
+
+#terms-page {
+  display: none;
+  background: #5e8dc4;
+  color: white;
+  font-size: 12px;
+  text-shadow: none;
+  font-weight: lighter;
+  margin: 20px 20px 20px 20px;
+}
+
 #menu-items {
   text-decoration: none;
   color: black;
@@ -21,6 +35,31 @@ body {
   margin: 0 0 20px 0;
   text-align: left;
 }
+
+#menu-home {
+  text-decoration: none;
+  color: black;
+  font-size: 24px;
+  margin: 0 0 20px 0;
+  text-align: left;
+}
+
+#menu-feed {
+  text-decoration: none;
+  color: black;
+  font-size: 24px;
+  margin: 0 0 20px 0;
+  text-align: left;
+}
+
+#menu-terms {
+  text-decoration: none;
+  color: black;
+  font-size: 24px;
+  margin: 0 0 20px 0;
+  text-align: left;
+}
+
 
 #bridge-window {
   padding-bottom: 5px;
