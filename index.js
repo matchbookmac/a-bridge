@@ -38,7 +38,7 @@ var io = require('socket.io')(server.listener);
 var eventEmitters = {
   bridgeEventSocket:  io.on('connection', function (socket) {
                         socket.emit('bridge data', bridgeStatuses);
-                        wlog.info("[%s] %s from %s",
+                        wlog.info("[%s] %s sent from %s",
                                       socket.handshake.address,
                                       "socket",
                                       socket.handshake.headers.referer
@@ -46,6 +46,7 @@ var eventEmitters = {
                       }),
   bridgeSSE:          new stream.PassThrough()
 };
+eventEmitters.bridgeSSE.setMaxListeners(0);
 
 server.register(plugins, function (err) {
   if (err) wlog.error(err);

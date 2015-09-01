@@ -26,6 +26,13 @@ module.exports = function (eventEmitters) {
           setTimeout(function () {
             eventEmitters.bridgeSSE.write('event: bridge data\ndata: ' + JSON.stringify(bridgeStatuses) + '\n\nretry: 1000\n');
           }, 1000);
+
+          var interval = setInterval(function () {
+            eventEmitters.bridgeSSE.write(': stay-alive\n\n');
+          }, 20000);
+          request.once('disconnect', function () {
+            clearInterval(interval);
+          });
         }
       }
     },
