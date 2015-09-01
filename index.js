@@ -2,11 +2,13 @@ require('./config/logging');
 var Hapi            = require('hapi');
 var Path            = require('path');
 var fs              = require('fs');
+var stream          = require('stream');
 var wlog            = require('winston');
 var User            = require('./models/index').User;
 var port            = require('./config/config').port;
 var bridgeStatuses  = require('./config/config').bridges;
 var https           = require('https');
+var SSE             = require('SSE');
 var sslConfig       = require('ssl-config')('intermediate');
 var options         = {
   port: port
@@ -43,6 +45,11 @@ var bridgeEventSocket = io.on('connection', function (socket) {
   );
 });
 
+var eventEmitters = {
+  bridgeEventSocket: bridgeEventSocket,
+  bridgeSSE: new stream.PassThrough()
+};
+
 server.register(plugins, function (err) {
   if (err) wlog.error(err);
   server.on('response', function (request) {
@@ -75,7 +82,7 @@ server.views({
   path: Path.join(__dirname, 'public/templates')
 });
 
-server.route(require('./routes')(bridgeEventSocket));
+server.route(require('./routes')(eventEmitters));
 
 module .exports = (function () {
   server.start(function(){

@@ -1,7 +1,7 @@
 var wlog = require('winston');
 var util = require('util');
 
-module .exports = function notifyUsers(request, bridgeStatuses, bridgeEventSocket) {
+module .exports = function notifyUsers(request, bridgeStatuses, eventEmitters) {
   var event = request.payload;
   var bridge = event.bridge.replace(/\'/g, "");
   bridgeStatuses[bridge] = {
@@ -13,7 +13,9 @@ module .exports = function notifyUsers(request, bridgeStatuses, bridgeEventSocke
     util.inspect(bridgeStatuses[bridge]),
     new Date(event.timeStamp ? event.timeStamp : event.requestTime).toString()
   );
-  bridgeEventSocket.emit('bridge data', bridgeStatuses);
+  eventEmitters.bridgeEventSocket.emit('bridge data', bridgeStatuses);
+  eventEmitters.bridgeSSE.write('event: bridge data\n');
+  eventEmitters.bridgeSSE.write('data: ' + JSON.stringify(bridgeStatuses) + '\n\n');
 
   function determineStatus() {
     return bridgeStatuses[bridge] ? event.type ? bridgeStatuses[bridge].status

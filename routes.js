@@ -11,7 +11,7 @@ var getScheduledEvents = require('./handlers/get-scheduled-events');
 var receiveBridgeEvent = require('./handlers/receive-bridge-event');
 var receiveScheduledEvent = require('./handlers/receive-scheduled-event');
 
-module.exports = function (bridgeEventSocket) {
+module.exports = function (eventEmitters) {
   var routes = [
     {
       method: 'GET',
@@ -22,6 +22,21 @@ module.exports = function (bridgeEventSocket) {
         },
         description: 'Renders page for the user to watch real-time bridge lifts.',
         tags: ['notification']
+      }
+    },
+
+    {
+      method: 'GET',
+      path: '/sse',
+      config: {
+        handler: function (request, reply) {
+          var response = reply(eventEmitters.bridgeSSE);
+          response.code(200)
+                  .type('text/event-stream')
+                  .header('Connection', 'keep-alive')
+                  .header('Cache-Control', 'no-cache')
+                  .header('Content-Encoding', 'identity');
+        }
       }
     },
 
@@ -110,7 +125,7 @@ module.exports = function (bridgeEventSocket) {
       path: '/bridges/events/actual',
       config: {
         handler: function (request, reply) {
-          notifyUsers(request, bridgeStatuses, bridgeEventSocket);
+          notifyUsers(request, bridgeStatuses, eventEmitters);
           receiveBridgeEvent(request, reply, bridgeOpenings);
         },
         validate: {
@@ -147,7 +162,7 @@ module.exports = function (bridgeEventSocket) {
       path: '/bridges/events/scheduled',
       config: {
         handler: function (request, reply) {
-          notifyUsers(request, bridgeStatuses, bridgeEventSocket);
+          notifyUsers(request, bridgeStatuses, eventEmitters);
           receiveScheduledEvent(request, reply);
         },
         validate: {

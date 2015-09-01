@@ -1,6 +1,5 @@
 var socket = io('http://52.26.186.75');
 
-
 socket.on('bridge data', function (data) {
   $("#bridges").text("");
   $.each(data, function (bridge) {
