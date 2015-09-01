@@ -51,6 +51,30 @@ module.exports = function (eventEmitters) {
 
     {
       method: 'GET',
+      path: '/mobile/feed',
+      config: {
+        handler: {
+          view: "mobile-feed"
+        },
+        description: 'Renders page for the user to the bridge twitter feed.',
+        tags: ['notification']
+      }
+    },
+
+    {
+      method: 'GET',
+      path: '/mobile/terms',
+      config: {
+        handler: {
+          view: "mobile-terms"
+        },
+        description: 'Renders page for the user to the terms of the app.',
+        tags: ['notification']
+      }
+    },
+
+    {
+      method: 'GET',
       path: '/public/{path*}',
       handler: {
         directory: {
