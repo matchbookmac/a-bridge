@@ -1,7 +1,6 @@
 var Path           = require('path');
 var wlog           = require('winston');
 var joi            = require('joi');
-var Promise        = require('promise');
 var bridgeStatuses = require('./config/config').bridges;
 var bridgeOpenings = [];
 var notifyUsers = require('./handlers/notify-users');
