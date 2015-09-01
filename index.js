@@ -35,19 +35,16 @@ var plugins = [
 var server = new Hapi.Server();
 server.connection(options);
 var io = require('socket.io')(server.listener);
-
-var bridgeEventSocket = io.on('connection', function (socket) {
-  socket.emit('bridge data', bridgeStatuses);
-  wlog.info("[%s] %s from %s",
-                socket.handshake.address,
-                "socket",
-                socket.handshake.headers.referer
-  );
-});
-
 var eventEmitters = {
-  bridgeEventSocket: bridgeEventSocket,
-  bridgeSSE: new stream.PassThrough()
+  bridgeEventSocket:  io.on('connection', function (socket) {
+                        socket.emit('bridge data', bridgeStatuses);
+                        wlog.info("[%s] %s from %s",
+                                      socket.handshake.address,
+                                      "socket",
+                                      socket.handshake.headers.referer
+                        );
+                      }),
+  bridgeSSE:          new stream.PassThrough()
 };
 
 server.register(plugins, function (err) {
