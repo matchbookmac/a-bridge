@@ -3,8 +3,10 @@ ul {
     list-style-type: none;
     text-align: left;
     margin: 0 0 50px 0;
+}
 
-
+footer {
+  background: #5e8dc4;
 }
 
 body {
@@ -12,6 +14,31 @@ body {
   height: 100%;
   background: #5e8dc4;
   font-family: "Helvetica Neue",Helvetica,Arial,Geneva,"Lucida Grande",sans-serif;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+#hawthorne-page {
+  display: none;
+}
+
+#morrison-page {
+  display: none;
+}
+
+#burnside-page {
+  display: none;
+}
+
+#broadway-page {
+  display: none;
+}
+
+#cuevas-crossing-page {
+  display: none;
 }
 
 #feed-page {
@@ -111,6 +138,11 @@ body {
 }
 
 #bridges {
+  text-decoration: none;
+  color: black;
+  font-size: 24px;
+  margin: 0 0 20px 0;
+  text-align: left;
 }
 
 #menu {
@@ -136,12 +168,14 @@ body {
 
 .bridge {
   vertical-align: middle;
-  font-size: 30px;
   text-align: left;
   vertical-align: 50%;
   padding-left: 25px;
   display: inline-block;
   text-transform: capitalize;
+  text-decoration: none;
+  color: black;
+  font-size: 24px;
 }
 
 .led {
