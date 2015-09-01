@@ -8,7 +8,6 @@ var User            = require('./models/index').User;
 var port            = require('./config/config').port;
 var bridgeStatuses  = require('./config/config').bridges;
 var https           = require('https');
-var SSE             = require('SSE');
 var sslConfig       = require('ssl-config')('intermediate');
 var options         = {
   port: port
