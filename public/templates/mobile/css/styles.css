@@ -91,10 +91,14 @@ body {
     padding-top: 20px;
     padding-bottom: 20px;
 }
+#feed-page {
+  padding-left: 50px;
+  padding-right: 50px;
+}
 
-#twitterfeed {
-  clear: both;
-  text-align: center;
+#bridge-page {
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 #header {
@@ -111,7 +115,7 @@ body {
 
 #menu {
   font-family: "Helvetica Neue",Helvetica,Arial,Geneva,"Lucida Grande",sans-serif;
-  background: #5e8dc4;
+  background: #2c4a6f;
   color: white;
   text-shadow: none;
   font-weight: lighter;
