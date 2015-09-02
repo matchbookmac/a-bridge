@@ -2,6 +2,7 @@ require('./config/logging');
 var Hapi            = require('hapi');
 var Path            = require('path');
 var fs              = require('fs');
+var stream          = require('stream');
 var wlog            = require('winston');
 var User            = require('./models/index').User;
 var port            = require('./config/config').port;
@@ -33,14 +34,29 @@ var plugins = [
 var server = new Hapi.Server();
 server.connection(options);
 var io = require('socket.io')(server.listener);
-
-var bridgeEventSocket = io.on('connection', function (socket) {
-  socket.emit('bridge data', bridgeStatuses);
-  console.log("hi!");
-});
+var eventEmitters = {
+  bridgeEventSocket:  io.on('connection', function (socket) {
+                        socket.emit('bridge data', bridgeStatuses);
+                        wlog.info("[%s] %s sent from %s",
+                                      socket.handshake.address,
+                                      "socket",
+                                      socket.handshake.headers.referer
+                        );
+                      }),
+  bridgeSSE:          new stream.PassThrough()
+};
+eventEmitters.bridgeSSE.setMaxListeners(0);
 
 server.register(plugins, function (err) {
   if (err) wlog.error(err);
+  server.on('response', function (request) {
+    wlog.info("[%s] %s %s - %s",
+                  request.info.remoteAddress,
+                  request.method,
+                  request.url.path,
+                  request.response.statusCode
+    );
+  });
 });
 
 server.auth.strategy('simple', 'bearer-access-token', {
@@ -63,7 +79,7 @@ server.views({
   path: Path.join(__dirname, 'public/templates')
 });
 
-server.route(require('./routes')(bridgeEventSocket));
+server.route(require('./routes')(eventEmitters));
 
 module .exports = (function () {
   server.start(function(){
