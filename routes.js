@@ -114,6 +114,12 @@ module.exports = function (eventEmitters) {
           notifyUsers(request, bridgeStatuses, eventEmitters);
           receiveScheduledEvent(request, reply);
         },
+        // payload: {
+        //   output: 'data',
+        //   parse: true,
+        //   allow: 'application/json'
+        // },
+
         validate: {
           payload: joi.object().keys({
             "bridge": joi.string().required(),

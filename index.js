@@ -1,9 +1,11 @@
 require('./config/logging');
 var Hapi            = require('hapi');
-var Path            = require('path');
+var _               = require('lodash');
+var path            = require('path');
 var fs              = require('fs');
 var stream          = require('stream');
 var wlog            = require('winston');
+var redis           = require('redis').createClient();
 var User            = require('./models/index').User;
 var port            = require('./config/config').port;
 var bridgeStatuses  = require('./config/config').bridges;
@@ -12,9 +14,9 @@ var sslConfig       = require('ssl-config')('intermediate');
 var options         = {
   port: port
   // tls: {
-  //   key: fs.readFileSync(Path.join(__dirname + '/keys/server.key')),
-  //   cert: fs.readFileSync(Path.join(__dirname + '/keys/server.crt')),
-  //   ca: fs.readFileSync(Path.join(__dirname + '/keys/cs.crt'), 'utf8'),
+  //   key: fs.readFileSync(path.join(__dirname + '/keys/server.key')),
+  //   cert: fs.readFileSync(path.join(__dirname + '/keys/server.crt')),
+  //   ca: fs.readFileSync(path.join(__dirname + '/keys/cs.crt'), 'utf8'),
   //   requestCert: true,
   //   rejectUnauthorized: false
   // }
@@ -34,18 +36,31 @@ var plugins = [
 var server = new Hapi.Server();
 server.connection(options);
 var io = require('socket.io')(server.listener);
+var bridgeEventSocket = io.on('connection', function (socket) {
+  // disconnect users who try to send us data
+  socket.conn.on('data', function (chunk) {
+    socket.disconnect();
+    wlog.warn("[%s] tried to send data and was disconnected",
+                this.remoteAddress
+    );
+  });
+
+  socket.emit('bridge data', bridgeStatuses);
+  wlog.info("[%s] %s sent from %s",
+                socket.handshake.address,
+                "socket",
+                socket.handshake.headers.referer
+  );
+});
+
 var eventEmitters = {
-  bridgeEventSocket:  io.on('connection', function (socket) {
-                        socket.emit('bridge data', bridgeStatuses);
-                        wlog.info("[%s] %s sent from %s",
-                                      socket.handshake.address,
-                                      "socket",
-                                      socket.handshake.headers.referer
-                        );
-                      }),
+  bridgeEventSocket:  bridgeEventSocket,
   bridgeSSE:          new stream.PassThrough()
 };
 eventEmitters.bridgeSSE.setMaxListeners(0);
+
+io.on('data', function (chunk) {
+});
 
 server.register(plugins, function (err) {
   if (err) wlog.error(err);
@@ -76,7 +91,7 @@ server.views({
   engines: {
     html: require('handlebars')
   },
-  path: Path.join(__dirname, 'public/templates')
+  path: path.join(__dirname, 'public/templates')
 });
 
 server.route(require('./routes')(eventEmitters));
