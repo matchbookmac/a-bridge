@@ -1,5 +1,7 @@
 ## Redis Setup (Dev)
-
+This doesn't work yet. following:
+http://naleid.com/blog/2011/03/05/running-redis-as-a-user-daemon-on-osx-with-launchd
+http://mac-dev-env.patrickbougie.com/redis/
 ### Install Redis
 Follow http://redis.io/topics/quickstart to make redis, and make Install
 
