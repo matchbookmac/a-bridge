@@ -162,6 +162,19 @@ Any other arguments without `-` or `--` will be sent as an array of values assig
 Extraneous options with `-` or `--` that are not listed above will be ignored.
 ```
 
+## Updating node and npm
+
+If you don't alread have `n` installed:
+```console
+sudo npm cache clean -f
+sudo npm i -g n
+```
+
+Then:
+```console
+sudo n stable
+sudo npm i -g npm
+```
 
 Testing auth strategy
 
