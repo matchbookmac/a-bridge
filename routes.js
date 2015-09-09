@@ -1,73 +1,14 @@
-var Path           = require('path');
-var wlog           = require('winston');
 var joi            = require('joi');
-var bridgeStatuses = require('./config/config').bridges;
-var bridgeOpenings = [];
-var notifyUsers = require('./handlers/notify-users');
 var receiveBridgeEvent = require('./handlers/receive-bridge-event');
 var receiveScheduledEvent = require('./handlers/receive-scheduled-event');
 
-module.exports = function (eventEmitters) {
+module.exports = (function () {
   var routes = [
-    {
-      method: 'GET',
-      path: '/sse',
-      config: {
-        handler: function (request, reply) {
-          var response = reply(eventEmitters.bridgeSSE);
-          response.code(200)
-                  .type('text/event-stream')
-                  .header('Connection', 'keep-alive')
-                  .header('Cache-Control', 'no-cache')
-                  .header('Content-Encoding', 'identity')
-                  .header('Access-Control-Allow-Origin', '*');
-
-          setTimeout(function () {
-            eventEmitters.bridgeSSE.write('event: bridge data\ndata: ' + JSON.stringify(bridgeStatuses) + '\n\nretry: 1000\n');
-          }, 1000);
-
-          var interval = setInterval(function () {
-            eventEmitters.bridgeSSE.write(': stay-alive\n\n');
-          }, 20000);
-          request.once('disconnect', function () {
-            clearInterval(interval);
-          });
-        }
-      }
-    },
-
-    {
-      method: 'GET',
-      path: '/mobile',
-      config: {
-        handler: {
-          view: "mobile-index"
-        },
-        description: 'Renders page for the user to watch real-time bridge lifts.',
-        tags: ['notification']
-      }
-    },
-
-    {
-      method: 'GET',
-      path: '/public/{path*}',
-      handler: {
-        directory: {
-          path: Path.join(__dirname, '/public'),
-          listing: false,
-          index: false
-        }
-      }
-    },
-
     {
       method: 'POST',
       path: '/bridges/events/actual',
       config: {
-        handler: function (request, reply) {
-          notifyUsers(request, bridgeStatuses, eventEmitters);
-          receiveBridgeEvent(request, reply, bridgeOpenings);
-        },
+        handler: receiveBridgeEvent,
         validate: {
           payload: joi.object().keys({
             "bridge": joi.string().required(),
@@ -86,10 +27,7 @@ module.exports = function (eventEmitters) {
       method: 'POST',
       path: '/bridges/events/scheduled',
       config: {
-        handler: function (request, reply) {
-          notifyUsers(request, bridgeStatuses, eventEmitters);
-          receiveScheduledEvent(request, reply);
-        },
+        handler: receiveScheduledEvent,
         // payload: {
         //   output: 'data',
         //   parse: true,
@@ -113,4 +51,4 @@ module.exports = function (eventEmitters) {
   ];
 
   return routes;
-};
+})();

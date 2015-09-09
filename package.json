@@ -1,7 +1,7 @@
 {
-  "name": "test-snmp-api",
+  "name": "a-bridgeapp",
   "version": "0.0.1",
-  "description": "Test API for receiving posts from snmp relay and providing them to a web api",
+  "description": "Hub for receiving events from an snmp listener and a scheduling form, and saving those to a database",
   "main": "index.js",
   "scripts": {
     "test": "gulp test && mocha --reporter nyan",
@@ -14,7 +14,6 @@
     "url": "https://multco.git.beanstalkapp.com/a-bridgeapp.git"
   },
   "keywords": [
-    "test",
     "snmp",
     "api"
   ],

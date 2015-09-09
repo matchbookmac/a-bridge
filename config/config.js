@@ -36,14 +36,11 @@ function envVars() {
   }
 }
 
-function bridges() {
-  return env.bridges;
-}
-
 module .exports = {
   port: port(),
   env: environment(),
   envVars: envVars(),
   aBridge: aBridge(),
-  bridges: bridges()
+  bridges: env.bridges,
+  bridgeOpenings: []
 };
