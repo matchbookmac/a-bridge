@@ -12,6 +12,12 @@ function aBridge() {
   return tmpABridge;
 }
 
+function iBridge() {
+  var tmpIBridge = env.iBridge;
+  if (environment() !== 'production') tmpIBridge.hostname = ip.address();
+  return tmpIBridge;
+}
+
 function environment() {
   var
     argvEnv = argv.E || argv.env,
@@ -35,12 +41,16 @@ function envVars() {
     return env[node_env];
   }
 }
+var bridges = env.bridges;
+
+var bridgeOpenings = [];
 
 module .exports = {
   port: port(),
   env: environment(),
   envVars: envVars(),
   aBridge: aBridge(),
-  bridges: env.bridges,
-  bridgeOpenings: []
+  iBridge: iBridge(),
+  bridges: bridges,
+  bridgeOpenings: bridgeOpenings
 };

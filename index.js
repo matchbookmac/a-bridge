@@ -3,7 +3,6 @@ var Hapi            = require('hapi');
 var _               = require('lodash');
 var path            = require('path');
 var fs              = require('fs');
-var stream          = require('stream');
 var wlog            = require('winston');
 var User            = require('./models/index').User;
 var serverConfig    = require('./config/config');

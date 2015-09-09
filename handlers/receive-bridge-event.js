@@ -4,6 +4,8 @@ var BridgeEvent    = require('../models/index').BridgeEvent;
 var wlog           = require('winston');
 var bridgeStatuses = require('../config/config').bridges;
 var bridgeOpenings = require('../config/config').bridgeOpenings;
+var postBridgeMessage  = require('../modules/post-bridge-message');
+var handlePostResponse = require('../modules/handle-post-response');
 
 module .exports = function receiveBridgeEvent(request, reply) {
   var event = request.payload;
@@ -45,7 +47,12 @@ module .exports = function receiveBridgeEvent(request, reply) {
       }
     }
   }
-  
+  postBridgeMessage(bridgeStatuses, null, function (err, res, status) {
+    handlePostResponse(status, bridgeStatuses, function (err, status) {
+      if (err) wlog.error("Error posting\n" + util.inspect(bridgeStatuses) + ":\n" + err + "\n Status: " + status);
+    });
+  });
+
   function successResponse(event) {
     reply("event down post received");
   }
