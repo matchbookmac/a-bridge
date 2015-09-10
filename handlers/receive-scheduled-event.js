@@ -3,6 +3,8 @@ var ScheduledEvent = require('../models/index').ScheduledEvent;
 var db = require('../models/index');
 var wlog           = require('winston');
 var bridgeStatuses = require('../config/config').bridges;
+var postBridgeMessage  = require('../modules/post-bridge-message');
+var handlePostResponse = require('../modules/handle-post-response');
 
 module .exports = function receiveScheduledEvent(request, reply) {
   var event = request.payload;
@@ -14,6 +16,7 @@ module .exports = function receiveScheduledEvent(request, reply) {
     status: currentStatus,
     scheduledLift: event
   };
+  event.bridge = bridge;
   wlog.info("%s %s lift scheduled for %s at %s",
     bridge,
     bridgeStatuses[bridge].scheduledLift.type,
