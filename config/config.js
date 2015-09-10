@@ -3,7 +3,7 @@ var ip      = require('ip');
 var argv    = require('minimist')(process.argv.slice(2));
 
 function port() {
-  return argv.p || argv.port || env.aBridge.port || 80;
+  return argv.p || argv.port || process.env.PORT || env.aBridge.port || 80;
 }
 
 function aBridge() {
