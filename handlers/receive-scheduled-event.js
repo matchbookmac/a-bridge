@@ -17,6 +17,8 @@ module .exports = function receiveScheduledEvent(request, reply) {
     scheduledLift: event
   };
   event.bridge = bridge;
+  bridgeStatuses.changed.bridge = bridge;
+  bridgeStatuses.changed.item = "scheduledLift";
   wlog.info("%s %s lift scheduled for %s at %s",
     bridge,
     bridgeStatuses[bridge].scheduledLift.type,

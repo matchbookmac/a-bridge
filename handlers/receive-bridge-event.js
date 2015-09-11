@@ -1,5 +1,6 @@
 var strftime       = require('strftime');
 var boom           = require('boom');
+var util           = require('util');
 var BridgeEvent    = require('../models/index').BridgeEvent;
 var wlog           = require('winston');
 var bridgeStatuses = require('../config/config').bridges;
@@ -16,6 +17,8 @@ module .exports = function receiveBridgeEvent(request, reply) {
     status: event.status,
     scheduledLift: event.status ? null : previousScheduledLift
   };
+  bridgeStatuses.changed.bridge = bridge;
+  bridgeStatuses.changed.item = "status";
   wlog.info("%s %s at %s",
     bridge,
     bridgeStatuses[bridge].status ? 'up' : 'down',

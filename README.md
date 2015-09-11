@@ -39,7 +39,7 @@ gulp db:seed:production
 
 *Production (no jshint):*
 ```console
-npm run-script prod-start
+npm run prod-start
 ```
 
 *Development (with jshint):*
@@ -53,7 +53,7 @@ A list of tasks available to make your life easier
 ```console
 npm test
 npm start
-npm run-script prod-start
+npm run prod-start
 npm stop
 gulp db:create
 gulp db:drop
