@@ -18,6 +18,8 @@ npm install
 npm install -g forever nodemon jshint sequelize-cli gulp
 ```
 
+We are using upstart to daemonize the node server as a service.
+
 ### Setup Database
 *development*
 ```console
