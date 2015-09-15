@@ -82,4 +82,4 @@ var postResponses = {
   "ECONNREFUSED": connectionRefused
 };
 
-module .exports = handlePostResponse;
+module.exports = handlePostResponse;
