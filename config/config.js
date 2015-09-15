@@ -14,12 +14,7 @@ function aBridge() {
 
 function iBridge() {
   var tmpIBridge = env.iBridge;
-  if (environment() === 'development') {
-    tmpIBridge.hostname = 'api.multco.us';
-    // tmpIBridge.port = 8000;
-  } else if (environment() === 'test') {
-    tmpIBridge.hostname = ip.address();
-  }
+  if (environment() === 'test') tmpIBridge.hostname = ip.address();
   return tmpIBridge;
 }
 
