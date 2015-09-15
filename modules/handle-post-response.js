@@ -1,5 +1,4 @@
 
-var http               = require('http');
 var wlog               = require('winston');
 var util               = require('util');
 var retry              = require('retry');

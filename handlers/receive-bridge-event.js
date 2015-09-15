@@ -52,7 +52,13 @@ module .exports = function receiveBridgeEvent(request, reply) {
   }
   postBridgeMessage(bridgeStatuses, null, function (err, res, status) {
     handlePostResponse(status, bridgeStatuses, function (err, status) {
-      if (err) wlog.error("Error posting\n" + util.inspect(bridgeStatuses) + ":\n" + err + "\n Status: " + status);
+      if (err) {
+        wlog.error("Error posting\n%s\n%s\nStatus: %s",
+          util.inspect(bridgeStatuses),
+          util.inspect(err),
+          status
+        );
+      }
     });
   });
 

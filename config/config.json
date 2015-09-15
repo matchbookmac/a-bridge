@@ -6,7 +6,7 @@
     "foo": "bar"
   },
   "aBridge": {
-    "port": 80,
+    "port": 8080,
     "path": "/bridges/events/actual",
     "method": "POST",
     "headers": {
@@ -16,8 +16,8 @@
     }
   },
   "iBridge": {
-    "hostname": "i-bridge.internal.mcix.us",
-    "port": 80,
+    "hostname": "api.multco.us",
+    "port": 443,
     "path": "/bridges/statuses",
     "method": "POST",
     "headers": {

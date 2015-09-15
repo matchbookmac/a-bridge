@@ -22,7 +22,7 @@ server.connection(options);
 server.register(plugins, function (err) {
   if (err) wlog.error(err);
   server.on('response', function (request) {
-    wlog.info("[%s] %s %s - %s",
+    wlog.info("[%s] incoming %s %s - %s",
                   request.info.remoteAddress,
                   request.method,
                   request.url.path,
