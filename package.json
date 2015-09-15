@@ -6,8 +6,8 @@
   "scripts": {
     "test": "gulp test && mocha --reporter nyan",
     "start": "nodemon index.js -E development",
-    "prod-start": "sudo forever start index.js -E production",
-    "stop": "sudo forever stop index.js"
+    "prod-start": "sudo start a-bridge",
+    "stop": "sudo stop a-bridge"
   },
   "repository": {
     "type": "git",
