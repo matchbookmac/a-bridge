@@ -2,7 +2,7 @@ var wlog = require('winston');
 
 module.exports = function (sequelize, DataTypes) {
   var User = sequelize.define(
-    'User',
+    'user',
     {
       id: {
         type: DataTypes.INTEGER,

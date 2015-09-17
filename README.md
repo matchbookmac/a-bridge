@@ -37,6 +37,9 @@ gulp db:migrate:production
 gulp db:seed:production
 ```
 
+We are using sequelize as the ORM for the database, the documentation is here, and is quite good:
+http://sequelize.readthedocs.org/en/latest/docs/associations/#one-to-many-associations
+
 ### Start server:
 
 *Production (no jshint):*

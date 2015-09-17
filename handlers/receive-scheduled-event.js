@@ -1,5 +1,5 @@
 var boom           = require('boom');
-var ScheduledEvent = require('../models/index').ScheduledEvent;
+var ScheduledEvent = require('../models/index').scheduledEvent;
 var db = require('../models/index');
 var wlog           = require('winston');
 var bridgeStatuses = require('../config/config').bridges;

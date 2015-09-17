@@ -1,5 +1,5 @@
 var db = require('../models/index');
-var User = db.User;
+var User = db.user;
 
 db.sequelize.sync({force: true}).then(function () {
   User.create({ email: 'user@example.com', token: '1234' }).then(function () {
