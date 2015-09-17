@@ -2,10 +2,10 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.renameColumn('bridgeEvents', 'name', 'bridge');
+    return queryInterface.renameColumn('bridgeEvents', 'actualEvents');
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.renameColumn('bridgeEvents', 'bridge', 'name');
+    return queryInterface.renameColumn('actualEvents', 'bridgeEvents');
   }
 };

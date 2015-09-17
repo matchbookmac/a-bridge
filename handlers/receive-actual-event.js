@@ -1,14 +1,14 @@
 var strftime       = require('strftime');
 var boom           = require('boom');
 var util           = require('util');
-var BridgeEvent    = require('../models/index').bridgeEvent;
+var ActualEvent    = require('../models/index').actualEvent;
 var wlog           = require('winston');
 var bridgeStatuses = require('../config/config').bridges;
 var bridgeOpenings = require('../config/config').bridgeOpenings;
 var postBridgeMessage  = require('../modules/post-bridge-message');
 var handlePostResponse = require('../modules/handle-post-response');
 
-module .exports = function receiveBridgeEvent(request, reply) {
+module .exports = function receiveActualEvent(request, reply) {
   var event = request.payload;
   var bridge = event.bridge.replace(/\'/g, "");
   // Assemble current status for bridge
@@ -28,7 +28,7 @@ module .exports = function receiveBridgeEvent(request, reply) {
   var timeStamp  = strftime("%Y/%m/%d %H:%M:%S", event.timeStamp);
   if (event.status){
     reply("event up post received");
-    var bridgeEvent = {
+    var actualEvent = {
       name: bridge,
       uptime: timeStamp
     };
@@ -38,12 +38,12 @@ module .exports = function receiveBridgeEvent(request, reply) {
         bridgeOpenings.splice(i, 1);
       }
     }
-    bridgeOpenings.push(bridgeEvent);
+    bridgeOpenings.push(actualEvent);
   } else {
     for (i = 0; i < bridgeOpenings.length; i++){
       //check to see if there are any open bridge events that correspond with this close event
       if (bridgeOpenings[i].name === bridge){
-        BridgeEvent.create({ bridge: bridge, up_time: bridgeOpenings[i].uptime, down_time: timeStamp })
+        ActualEvent.create({ bridge: bridge, up_time: bridgeOpenings[i].uptime, down_time: timeStamp })
                     .then(successResponse)
                     .catch(errorResponse);
         bridgeOpenings.splice(i, 1);

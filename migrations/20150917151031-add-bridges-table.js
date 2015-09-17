@@ -12,6 +12,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      totalUpTime: {
+        type: Sequelize.FLOAT,
+        defaultVaule: 0.0
+      },
+      avgUpTime: {
+        type: Sequelize.FLOAT,
+        defaultVaule: 0.0
+      },
       createdAt: {
         type: Sequelize.DATE
       },
