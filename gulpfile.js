@@ -27,9 +27,7 @@ gulp.task('default', function() {
   console.log(env);
 });
 
-gulp.task('test', function () {
-  process.env.NODE_ENV = 'test';
-});
+gulp.task('test', shell.task('NODE_ENV=test mocha --reporter nyan -c'));
 
 // gulp.task('test', shell.task(
 //   'mocha --reporter nyan',

@@ -1,9 +1,8 @@
-require('./config/logging');
 var Hapi            = require('hapi');
 var _               = require('lodash');
 var path            = require('path');
 var fs              = require('fs');
-var wlog            = require('winston');
+var logger          = require('./config/logging');
 var User            = require('./models/index').user;
 var serverConfig    = require('./config/config');
 var sslConfig       = require('ssl-config')('intermediate');
@@ -20,9 +19,9 @@ var server = new Hapi.Server();
 server.connection(options);
 
 server.register(plugins, function (err) {
-  if (err) wlog.error(err);
+  if (err) logger.error(err);
   server.on('response', function (request) {
-    wlog.info("[%s] incoming %s %s - %s",
+    logger.info("[%s] incoming %s %s - %s",
                   request.info.remoteAddress,
                   request.method,
                   request.url.path,
@@ -48,7 +47,7 @@ server.route(require('./routes'));
 
 module .exports = (function () {
   server.start(function(){
-    wlog.info('Server running at:', server.info.uri);
+    logger.info('Server running at:', server.info.uri);
   });
   return server;
 })();

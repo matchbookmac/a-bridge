@@ -13,7 +13,8 @@
     "port": 3307,
     "database": "a_bridge_test",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   },
   "production": {
     "username": "bridgeapp",

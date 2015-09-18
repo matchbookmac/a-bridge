@@ -1,10 +1,8 @@
-var
-  http     = require('http'),
-  wlog     = require('winston'),
-  port     = require('../config/config').port,
-  aBridge  = require('../config/config').aBridge,
-  ip       = require('ip')
-;
+var http     = require('http');
+var logger   = require('../config/logging');
+var port     = require('../config/config').port;
+var aBridge  = require('../config/config').aBridge;
+var ip       = require('ip');
 
 module .exports = function testPost(bridgeData, sendOptions, callback){
   bridgeData = JSON.stringify(bridgeData);
@@ -31,7 +29,7 @@ module .exports = function testPost(bridgeData, sendOptions, callback){
 
     res.on('end', function () {
       if (callback) callback(response, status);
-      wlog.info("Request Status: " + status, response);
+      logger.info("Request Status: " + status, response);
     });
   });
 
@@ -39,7 +37,7 @@ module .exports = function testPost(bridgeData, sendOptions, callback){
     if (callback) {
       callback(err.message, null);
     } else {
-      wlog.info(err);
+      logger.info(err);
     }
   });
 

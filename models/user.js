@@ -1,4 +1,4 @@
-var wlog = require('winston');
+var logger = require('../config/logging');
 
 module.exports = function (sequelize, DataTypes) {
   var User = sequelize.define(
@@ -34,7 +34,7 @@ module.exports = function (sequelize, DataTypes) {
             .then(callback)
             .catch(function (err) {
               callback(err);
-              wlog.error('There was an error finding user with token: ' + token + ': ' + err);
+              logger.error('There was an error finding user with token: ' + token + ': ' + err);
             });
         }
       }

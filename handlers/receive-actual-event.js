@@ -2,7 +2,7 @@ var strftime       = require('strftime');
 var boom           = require('boom');
 var util           = require('util');
 var ActualEvent    = require('../models/index').actualEvent;
-var wlog           = require('winston');
+var logger         = require('../config/logging');
 var bridgeStatuses = require('../config/config').bridges;
 var bridgeOpenings = require('../config/config').bridgeOpenings;
 var postBridgeMessage  = require('../modules/post-bridge-message');
@@ -19,12 +19,11 @@ module .exports = function receiveActualEvent(request, reply) {
   };
   bridgeStatuses.changed.bridge = bridge;
   bridgeStatuses.changed.item = "status";
-  wlog.info("%s %s at %s",
+  logger.info("%s %s at %s",
     bridge,
     bridgeStatuses[bridge].status ? 'up' : 'down',
     event.timeStamp.toString()
   );
-
   var timeStamp  = strftime("%Y/%m/%d %H:%M:%S", event.timeStamp);
   if (event.status){
     reply("event up post received");
@@ -53,7 +52,7 @@ module .exports = function receiveActualEvent(request, reply) {
   postBridgeMessage(bridgeStatuses, null, function (err, res, status) {
     handlePostResponse(status, bridgeStatuses, function (err, status) {
       if (err) {
-        wlog.error("Error posting\n%s\n%s\nStatus: %s",
+        logger.error("Error posting\n%s\n%s\nStatus: %s",
           util.inspect(bridgeStatuses),
           util.inspect(err),
           status

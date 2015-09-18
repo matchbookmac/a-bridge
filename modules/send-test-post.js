@@ -49,6 +49,15 @@ if (path)     options.path     = path;
 if (method)   options.method   = method;
 if (headers)  options.headers  = headers;
 
-_.times(multiple, function () {
+if (multiple > 1) {
+  var postInterval = setInterval(function () {
+    if (multiple <= 0) return clearInterval(postInterval);
+    testPost(message, options);
+    if (multiple > 1 && !scheduled) {
+      message.status = !message.status;
+    }
+    multiple -= 1;
+  }, 1000);
+} else {
   testPost(message, options);
-});
+}

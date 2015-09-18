@@ -1,5 +1,4 @@
-
-var wlog               = require('winston');
+var logger             = require('../config/logging');
 var util               = require('util');
 var retry              = require('retry');
 var postBridgeMessage  = require('./post-bridge-message');
@@ -28,7 +27,7 @@ function exponentialRetry(bridgeData, callback) {
     postBridgeMessage(bridgeData, iBridge, function (err, res, status) {
       switch (status) {
         case 200:
-          wlog.info('Retry for:\n' + util.inspect(bridgeData) + '\nsuccessful');
+          logger.info('Retry for:\n' + util.inspect(bridgeData) + '\nsuccessful');
           return callback(null, status);
         case 500: case 503: case 504: case "ECONNREFUSED":
           if (operation.retry({ err: err, response: res })) {
@@ -45,10 +44,10 @@ function exponentialRetry(bridgeData, callback) {
 
 function postRequestRetryCallback(err, res, status, message, callback) {
   if (status === 200) {
-    wlog.info('Retry for:\n' + util.inspect(message) + '\nsuccessful');
+    logger.info('Retry for:\n' + util.inspect(message) + '\nsuccessful');
     return callback(null, status);
   } else if (postResponses[status.toString()]) {
-    wlog.error('Retry for:\n' + util.inspect(message) + '\nunsucessful with HTTP error: ' + status);
+    logger.error('Retry for:\n' + util.inspect(message) + '\nunsucessful with HTTP error: ' + status);
     return callback(err, status);
   }
 }
@@ -59,7 +58,7 @@ function handlePostResponse(status, bridgeMessage, callback) {
   if (postResponses[postStatus]) {
     postResponses[postStatus].call(that, bridgeMessage, callback);
   } else {
-    wlog.error('Unknown Response Status: ' + status + ', Unsure how to handle');
+    logger.error('Unknown Response Status: ' + status + ', Unsure how to handle');
   }
 }
 

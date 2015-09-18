@@ -1,5 +1,5 @@
-var https       = require('https');
-var wlog       = require('winston');
+var https      = require('https');
+var logger     = require('../config/logging');
 var iBridge    = require('../config/config').iBridge;
 var currentEnv = require('../config/config').env;
 
@@ -23,13 +23,13 @@ module .exports = function(bridgeData, options, callback){
     });
 
     res.on('end', function () {
-      wlog.info("[%s] outgoing post %s - %s",
+      logger.info("[%s] outgoing post %s - %s",
         require("lodash").keys(res.req.agent.sockets)[0].split(":")[0],
         req.path,
         status
       );
       if (callback) return callback(null, response, status);
-      wlog.info("Request Status: " + status, response);
+      logger.info("Request Status: " + status, response);
     });
   });
 
