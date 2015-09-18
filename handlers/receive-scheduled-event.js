@@ -1,4 +1,5 @@
 var boom           = require('boom');
+var util           = require('util');
 var ScheduledEvent = require('../models/index').scheduledEvent;
 var db             = require('../models/index');
 var logger         = require('../config/logging');
@@ -17,6 +18,8 @@ module .exports = function receiveScheduledEvent(request, reply) {
     scheduledLift: event
   };
   event.bridge = bridge;
+// TODO: Change to match schema
+  event.bridgeId = 123;
   bridgeStatuses.changed.bridge = bridge;
   bridgeStatuses.changed.item = "scheduledLift";
   logger.info("%s %s lift scheduled for %s at %s",
@@ -34,7 +37,7 @@ module .exports = function receiveScheduledEvent(request, reply) {
                 });
   postBridgeMessage(bridgeStatuses, null, function (err, res, status) {
     handlePostResponse(status, bridgeStatuses, function (err, status) {
-      if (err) logger.error("Error posting\n" + util.inspect(bridgeStatuses) + ":\n" + err + "\n Status: " + status);
+      if (err) logger.error("Error posting\n" + util.inspect(bridgeStatuses) + ":\n" + util.inspect(err) + "\n Status: " + status);
     });
   });
 

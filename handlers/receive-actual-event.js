@@ -42,9 +42,14 @@ module .exports = function receiveActualEvent(request, reply) {
     for (i = 0; i < bridgeOpenings.length; i++){
       //check to see if there are any open bridge events that correspond with this close event
       if (bridgeOpenings[i].name === bridge){
-        ActualEvent.create({ bridge: bridge, up_time: bridgeOpenings[i].uptime, down_time: timeStamp })
-                    .then(successResponse)
-                    .catch(errorResponse);
+// TODO: Change to match schema
+        ActualEvent.create({
+          bridge: bridge,
+          bridgeId: 123,
+          up_time: bridgeOpenings[i].uptime,
+          down_time: timeStamp
+        }).then(successResponse)
+          .catch(errorResponse);
         bridgeOpenings.splice(i, 1);
       }
     }

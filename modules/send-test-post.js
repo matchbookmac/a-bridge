@@ -24,6 +24,7 @@ if (scheduled) {
   var todayUTC = Date.now() + 1000 * 60 * 60 * 2;
   var defaultLiftTime = new Date(0);
   defaultLiftTime.setUTCMilliseconds(todayUTC);
+// TODO: Change to match schema
   message = {
     bridge:            bridge   ? bridge   : "bailey's bridge",
     type:              status   ? status   : "testing",

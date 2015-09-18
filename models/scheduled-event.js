@@ -7,6 +7,10 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true
       },
+      bridgeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
       bridge: {
         type: DataTypes.STRING,
         allowNull: false

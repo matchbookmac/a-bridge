@@ -1,16 +1,14 @@
 'use strict';
-var ScheduledEvent = require('../models/index').scheduledEvent;
+var ActualEvent = require('../models/index').actualEvent;
 var Bridge = require('../models/index').bridge;
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
     Bridge.findAll().then(function (bridges) {
       bridges.forEach(function (bridge) {
-        ScheduledEvent.update(bridge.id, {
+        ActualEvent.update({ bridgeId: bridge.id }, {
           where: {
-            bridge: {
-              $like: "%"+bridge.name+"%"
-            }
+            bridge: bridge.name
           }
         });
       });
@@ -18,7 +16,7 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    ScheduledEvent.update(null, {
+    ActualEvent.update({ bridgeId: 123 }, {
       where: {
         bridge: {
           $not: null

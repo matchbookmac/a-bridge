@@ -1,7 +1,7 @@
 var fs         = require('fs');
 var path       = require('path');
 var chalk      = require('chalk');
-var currentEnv = process.env.NODE_ENV;
+var currentEnv = require('./config').env;
 var strftime   = require('strftime');
 var logger;
 
