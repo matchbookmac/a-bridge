@@ -59,7 +59,11 @@ gulp.task('db:drop', function () {
 });
 
 gulp.task('db:migrate', shell.task('sequelize db:migrate --config db/database.json --env development'));
+
+gulp.task('db:migrate:undo', shell.task('sequelize db:migrate:undo --config db/database.json --env development'));
+
 gulp.task('db:migrate:production', shell.task('sequelize db:migrate --config db/database.json --env production'));
+
 gulp.task('db:test:prepare', shell.task('sequelize db:migrate --config db/database.json --env test'));
 
 gulp.task('db:seed', function () {

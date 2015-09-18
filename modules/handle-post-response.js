@@ -21,33 +21,23 @@ function fourZeroFour(bridgeData, callback){
   });
 }
 
-function fiveHundred(bridgeData, callback){
-  exponentialRetry(bridgeData, callback);
-}
-
-function fiveZeroFour(bridgeData, callback){
-  exponentialRetry(bridgeData, callback);
-}
-
-function connectionRefused(bridgeData, callback){
-  exponentialRetry(bridgeData, callback);
-}
-
 function exponentialRetry(bridgeData, callback) {
   var operation = retry.operation({ retries: 4 });
 
   operation.attempt(function () {
     postBridgeMessage(bridgeData, iBridge, function (err, res, status) {
-      if (status === 200) {
-        wlog.info('Retry for:\n' + util.inspect(bridgeData) + '\nsuccessful');
-        return callback(null, status);
-      } else if (postResponses[status.toString()] && status != 500 && status != "ECONNREFUSED") {
-        handlePostResponse(status, bridgeData, callback);
-      } else {
-        if (operation.retry({ err: err, response: res })) {
-          return;
-        }
-        callback(operation.mainError(), status);
+      switch (status) {
+        case 200:
+          wlog.info('Retry for:\n' + util.inspect(bridgeData) + '\nsuccessful');
+          return callback(null, status);
+        case 500: case 503: case 504: case "ECONNREFUSED":
+          if (operation.retry({ err: err, response: res })) {
+            return;
+          }
+          callback(operation.mainError(), status);
+          break;
+        default:
+          handlePostResponse(status, bridgeData, callback);
       }
     });
   });
@@ -77,9 +67,10 @@ var postResponses = {
   "200": twoHundred,
   "400": fourHundred,
   "404": fourZeroFour,
-  "500": fiveHundred,
-  "504": fiveZeroFour,
-  "ECONNREFUSED": connectionRefused
+  "500": exponentialRetry,
+  "503": exponentialRetry,
+  "504": exponentialRetry,
+  "ECONNREFUSED": exponentialRetry
 };
 
 module.exports = handlePostResponse;
