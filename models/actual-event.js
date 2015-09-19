@@ -11,11 +11,11 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      up_time: {
+      upTime: {
         type: DataTypes.DATE,
         allowNull: false
       },
-      down_time: {
+      downTime: {
         type: DataTypes.DATE,
         allowNull: false
       },

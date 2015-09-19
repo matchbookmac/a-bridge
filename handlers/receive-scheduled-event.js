@@ -39,12 +39,12 @@ module .exports = function receiveScheduledEvent(request, reply) {
       event.requestTime.toString()
     );
     ScheduledEvent.create(event)
-                  .then(function (event) {
-                    reply("schedule post received");
-                  })
-                  .catch(function (err) {
-                    reply(boom.badRequest("There was an error with your schedule post: " + err));
-                  });
+      .then(function (event) {
+        reply("schedule post received");
+      })
+      .catch(function (err) {
+        reply(boom.badRequest("There was an error with your schedule post: " + err));
+      });
     postBridgeMessage(bridgeStatuses, null, function (err, res, status) {
       handlePostResponse(status, bridgeStatuses, function (err, status) {
         if (err) logger.error("Error posting\n" + util.inspect(bridgeStatuses) + ":\n" + util.inspect(err) + "\n Status: " + status);

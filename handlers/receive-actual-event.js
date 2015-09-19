@@ -1,6 +1,7 @@
 var strftime       = require('strftime');
 var boom           = require('boom');
 var util           = require('util');
+var Promise        = require("bluebird");
 var ActualEvent    = require('../models/index').actualEvent;
 var logger         = require('../config/logging');
 var bridgeStatuses = require('../config/config').bridges;
@@ -52,18 +53,38 @@ module .exports = function receiveActualEvent(request, reply) {
       }
       bridgeOpenings.push(actualEvent);
     } else {
+      if (bridgeOpenings.length === 0) successResponse();
       for (i = 0; i < bridgeOpenings.length; i++){
         //check to see if there are any open bridge events that correspond with this close event
         if (bridgeOpenings[i].name === bridge.name){
-          ActualEvent.create({
-            bridgeId: bridge.id,
-            up_time: bridgeOpenings[i].uptime,
-            down_time: timeStamp
-          }).then(successResponse)
+          Promise.all([
+            ActualEvent.create({
+              bridgeId: bridge.id,
+              upTime: bridgeOpenings[i].uptime,
+              downTime: timeStamp
+            }),
+            ActualEvent.count({
+              where: {
+                bridgeId: bridge.id
+              }
+            })
+          ]).then(updateBridge)
             .catch(errorResponse);
           bridgeOpenings.splice(i, 1);
+        } else {
+          successResponse();
         }
       }
+    }
+    function updateBridge(results) {
+      var event = results[0];
+      var count = results[1];
+      var newTotalUpTime = bridge.totalUpTime + (new Date(event.downTime) - new Date(event.upTime));
+      bridge.update({
+        totalUpTime: newTotalUpTime,
+        avgUpTime: (newTotalUpTime/count)
+      }).then(successResponse)
+        .catch(errorResponse);
     }
     postBridgeMessage(bridgeStatuses, null, function (err, res, status) {
       handlePostResponse(status, bridgeStatuses, function (err, status) {
@@ -77,11 +98,9 @@ module .exports = function receiveActualEvent(request, reply) {
       });
     });
   }).catch(errorResponse);
-
   function successResponse(event) {
     reply("event down post received");
   }
-
   function errorResponse(err) {
     reply(boom.badRequest("There was an error with your event post: " + err));
   }

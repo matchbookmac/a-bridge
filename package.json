@@ -20,6 +20,7 @@
   "author": "Ian MacDonald & Bob Ellis",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^2.10.0",
     "boom": "^2.8.0",
     "chalk": "^1.1.1",
     "handlebars": "^3.0.3",
