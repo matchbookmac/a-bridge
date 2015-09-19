@@ -22,6 +22,7 @@
     "port": 3306,
     "database": "bridgeapp",
     "host": "api-rds-bridges.clvekbxagtjv.us-west-2.rds.amazonaws.com",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   }
 }

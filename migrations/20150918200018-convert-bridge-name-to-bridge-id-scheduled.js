@@ -1,5 +1,5 @@
 'use strict';
-var ScheduledEvent = require('../models/index').scheduledEvent;
+var ScheduledEvent = require('../models/index').ScheduledEvent;
 var Bridge = require('../models/index').bridge;
 
 module.exports = {

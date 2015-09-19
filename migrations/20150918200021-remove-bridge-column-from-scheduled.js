@@ -3,14 +3,14 @@
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.removeColumn(
-      'scheduledEvents',
+      'ScheduledEvents',
       'bridge'
     );
   },
 
   down: function (queryInterface, Sequelize) {
     return queryInterface.addColumn(
-      'scheduledEvents',
+      'ScheduledEvents',
       'bridge',
       {
         type: Sequelize.STRING,
