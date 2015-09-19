@@ -4,6 +4,24 @@ var Promise     = require("bluebird");
 
 Bridge.findAll().then(function (bridges) {
   bridges.forEach(function (bridge) {
+    ScheduledEvent.update({ bridgeId: bridge.id }, {
+      where: {
+        bridge: bridge.name
+      }
+    });
+  });
+});
+Bridge.findAll().then(function (bridges) {
+  bridges.forEach(function (bridge) {
+    ActualEvent.update({ bridgeId: bridge.id }, {
+      where: {
+        bridge: bridge.name
+      }
+    });
+  });
+});
+Bridge.findAll().then(function (bridges) {
+  bridges.forEach(function (bridge) {
     var totalUpTime = 0;
     Promise.all([
       ActualEvent.findAll({
