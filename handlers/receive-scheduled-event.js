@@ -1,5 +1,6 @@
 var boom           = require('boom');
 var util           = require('util');
+var Promise        = require("bluebird");
 var ScheduledEvent = require('../models/index').scheduledEvent;
 var db             = require('../models/index');
 var logger         = require('../config/logging');
@@ -38,19 +39,35 @@ module .exports = function receiveScheduledEvent(request, reply) {
       event.estimatedLiftTime.toString(),
       event.requestTime.toString()
     );
-    ScheduledEvent.create(event)
-      .then(function (event) {
-        reply("schedule post received");
+    Promise.all([
+      ScheduledEvent.create(event),
+      ScheduledEvent.count({
+        where: {
+          bridgeId: bridge.id
+        }
       })
-      .catch(function (err) {
-        reply(boom.badRequest("There was an error with your schedule post: " + err));
-      });
+    ]).then(updateBridge)
+      .catch(errorResponse);
     postBridgeMessage(bridgeStatuses, null, function (err, res, status) {
       handlePostResponse(status, bridgeStatuses, function (err, status) {
         if (err) logger.error("Error posting\n" + util.inspect(bridgeStatuses) + ":\n" + util.inspect(err) + "\n Status: " + status);
       });
     });
-  }).catch(function (err) {
+
+    function updateBridge(results) {
+      var count = results[1];
+      bridge.update({
+        scheduledCount: count
+      }).then(successResponse)
+        .catch(errorResponse);
+    }
+  }).catch(errorResponse);
+
+  function successResponse(event) {
+    reply("schedule post received");
+  }
+
+  function errorResponse(err) {
     reply(boom.badRequest("There was an error with your schedule post: " + err));
-  });
+  }
 };

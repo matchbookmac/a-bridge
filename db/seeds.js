@@ -6,22 +6,22 @@ var Bridge = db.bridge;
   User.create({ email: 'user@example.com', token: '1234' }).then(function () {
     return;
   });
-  Bridge.create({ name: 'hawthorne', totalUpTime: 0.0, avgUpTime: 0.0 }).then(function () {
+  Bridge.create({ name: 'hawthorne', totalUpTime: 0.0, avgUpTime: 0.0, actualCount: 0 }).then(function () {
     return;
   });
-  Bridge.create({ name: 'morrison', totalUpTime: 0.0, avgUpTime: 0.0 }).then(function () {
+  Bridge.create({ name: 'morrison', totalUpTime: 0.0, avgUpTime: 0.0, actualCount: 0 }).then(function () {
     return;
   });
-  Bridge.create({ name: 'burnside', totalUpTime: 0.0, avgUpTime: 0.0 }).then(function () {
+  Bridge.create({ name: 'burnside', totalUpTime: 0.0, avgUpTime: 0.0, actualCount: 0 }).then(function () {
     return;
   });
-  Bridge.create({ name: 'broadway', totalUpTime: 0.0, avgUpTime: 0.0 }).then(function () {
+  Bridge.create({ name: 'broadway', totalUpTime: 0.0, avgUpTime: 0.0, actualCount: 0 }).then(function () {
     return;
   });
-  Bridge.create({ name: 'cuevas crossing', totalUpTime: 0.0, avgUpTime: 0.0 }).then(function () {
+  Bridge.create({ name: 'cuevas crossing', totalUpTime: 0.0, avgUpTime: 0.0, actualCount: 0 }).then(function () {
     return;
   });
-  Bridge.create({ name: 'baileys bridge', totalUpTime: 0.0, avgUpTime: 0.0 }).then(function () {
+  Bridge.create({ name: 'baileys bridge', totalUpTime: 0.0, avgUpTime: 0.0, actualCount: 0 }).then(function () {
     return;
   });
 // }).catch(function (err) {

@@ -21,6 +21,14 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.FLOAT,
         defaultVaule: 0.0
       },
+      actualCount: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      scheduledCount: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
       createdAt: {
         type: DataTypes.DATE
       },
