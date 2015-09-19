@@ -39,18 +39,22 @@ gulp.task('test', shell.task('NODE_ENV=test mocha --reporter nyan -c'));
 // ));
 
 gulp.task('db:create', function () {
-  dbManager.create(testDbName, function (err) {
-    if (err) console.error("There was a problem creating " + testDbName + ": " + err);
-  });
+  if (env != 'production') {
+    dbManager.create(testDbName, function (err) {
+      if (err) console.error("There was a problem creating " + testDbName + ": " + err);
+    });
+  }
   dbManager.create(dbName, function (err) {
     if (err) console.error("There was a problem creating " + dbName + ": " + err);
   });
 });
 
 gulp.task('db:drop', function () {
-  dbManager.drop(testDbName, function (err) {
-    if (err) console.error("There was a problem creating " + dbName + ": " + err);
-  });
+  if (env != 'production') {
+    dbManager.drop(testDbName, function (err) {
+      if (err) console.error("There was a problem creating " + dbName + ": " + err);
+    });
+  }
   dbManager.drop(dbName, function (err) {
     if (err) console.error("There was a problem creating " + dbName + ": " + err);
   });

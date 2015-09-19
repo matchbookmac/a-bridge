@@ -4,14 +4,14 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.removeColumn(
       'actualEvents',
-      'name'
+      'bridge'
     );
   },
 
   down: function (queryInterface, Sequelize) {
     return queryInterface.addColumn(
       'actualEvents',
-      'name',
+      'bridge',
       {
         type: Sequelize.STRING,
         allowNull: false
