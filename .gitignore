@@ -1,4 +1,5 @@
 /node_modules
 logs/*.log
+logs/*.md
 /keys
 .DS_Store
