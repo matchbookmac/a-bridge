@@ -2,19 +2,20 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.addIndex(
+    return queryInterface.removeColumn(
       'actualEvents',
-      ['bridge'],
-      {
-        indicesType: 'UNIQUE'
-      }
+      'bridge'
     );
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.removeIndex(
+    return queryInterface.addColumn(
       'actualEvents',
-      ['bridge']
+      'bridge',
+      {
+        type: Sequelize.STRING,
+        allowNull: false
+      }
     );
   }
 };

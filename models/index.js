@@ -31,4 +31,10 @@ Object.keys(db).forEach(function(modelName) {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+var Bridge = db.bridge;
+var ActualEvent = db.actualEvent;
+var ScheduledEvent = db.scheduledEvent;
+Bridge.hasMany(ActualEvent);
+Bridge.hasMany(ScheduledEvent);
+
 module.exports = db;
