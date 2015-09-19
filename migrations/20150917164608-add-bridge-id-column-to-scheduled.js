@@ -3,7 +3,7 @@
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.addColumn(
-      'ScheduledEvents',
+      'scheduledEvents',
       'bridgeId',
       {
         type: Sequelize.INTEGER,
@@ -13,6 +13,6 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.removeColumn('ScheduledEvents', 'bridgeId');
+    return queryInterface.removeColumn('scheduledEvents', 'bridgeId');
   }
 };
