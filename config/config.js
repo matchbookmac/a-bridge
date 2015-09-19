@@ -15,7 +15,6 @@ function aBridge() {
 function iBridge() {
   var tmpIBridge = env.iBridge;
   if (environment() === 'test') tmpIBridge.hostname = ip.address();
-  tmpIBridge.hostname = ip.address();
   return tmpIBridge;
 }
 
