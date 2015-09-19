@@ -53,7 +53,7 @@ function postRequestRetryCallback(err, res, status, message, callback) {
 }
 
 function handlePostResponse(status, bridgeMessage, callback) {
-  postStatus = status.toString();
+  var postStatus = status.toString();
   var that = this;
   if (postResponses[postStatus]) {
     postResponses[postStatus].call(that, bridgeMessage, callback);
