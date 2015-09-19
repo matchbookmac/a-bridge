@@ -11,10 +11,6 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      bridge: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
       up_time: {
         type: DataTypes.DATE,
         allowNull: false
