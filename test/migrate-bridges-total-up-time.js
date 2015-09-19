@@ -1,4 +1,5 @@
 var ActualEvent = require('../models/index').actualEvent;
+var ScheduledEvent = require('../models/index').ScheduledEvent;
 var Bridge      = require('../models/index').bridge;
 var Promise     = require("bluebird");
 
