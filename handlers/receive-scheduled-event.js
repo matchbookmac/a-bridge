@@ -1,5 +1,6 @@
 var boom           = require('boom');
 var util           = require('util');
+var _              = require('lodash');
 var Promise        = require("bluebird");
 var ScheduledEvent = require('../models/index').scheduledEvent;
 var db             = require('../models/index');
@@ -26,9 +27,10 @@ module .exports = function receiveScheduledEvent(request, reply) {
     bridge = bridge[0];
     // Assemble current status for bridge
     currentStatus = bridgeStatuses[bridge.name] ? bridgeStatuses[bridge.name].status : false;
+    delete event.bridge;
     bridgeStatuses[bridge.name] = {
       status: currentStatus,
-      scheduledLift: event
+      scheduledLift: _.cloneDeep(event)
     };
     event.bridgeId = bridge.id;
     bridgeStatuses.changed.bridge = bridge.name;
