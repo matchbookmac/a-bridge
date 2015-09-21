@@ -78,7 +78,7 @@ module .exports = function receiveActualEvent(request, reply) {
     }
     function updateBridge(results) {
       var event = results[0];
-      var count = results[1];
+      var count = results[1] + 1;
       var newTotalUpTime = bridge.totalUpTime + (new Date(event.downTime) - new Date(event.upTime));
       bridge.update({
         totalUpTime: newTotalUpTime,

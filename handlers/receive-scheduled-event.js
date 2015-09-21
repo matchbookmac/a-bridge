@@ -55,7 +55,7 @@ module .exports = function receiveScheduledEvent(request, reply) {
     });
 
     function updateBridge(results) {
-      var count = results[1];
+      var count = results[1] + 1;
       bridge.update({
         scheduledCount: count
       }).then(successResponse)
