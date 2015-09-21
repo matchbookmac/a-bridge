@@ -8,7 +8,7 @@
     "start": "nodemon index.js -E development",
     "prod-start": "sudo start a-bridge",
     "stop": "sudo stop a-bridge",
-    "restart": "sudo stop l-bridge && sudo start l-bridge"
+    "restart": "sudo stop a-bridge && sudo start a-bridge"
   },
   "repository": {
     "type": "git",
