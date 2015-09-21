@@ -22,10 +22,10 @@ server.register(plugins, function (err) {
   if (err) logger.error(err);
   server.on('response', function (request) {
     logger.info("[%s] incoming %s %s - %s",
-                  request.headers['x-forwarded-for'] || request.info.remoteAddress,
-                  request.method,
-                  request.url.path,
-                  request.response.statusCode
+      request.headers['x-forwarded-for'] || request.info.remoteAddress,
+      request.method,
+      request.url.path,
+      request.response.statusCode
     );
   });
 });
