@@ -3,7 +3,7 @@ var crypto = require('crypto');
 var bcrypt = require('bcrypt');
 var serverConfig = require('../config/config');
 
-var client = redis.createClient();
+var client = redis.createClient(serverConfig.redis.port, serverConfig.redis.host);
 client.auth(serverConfig.redis.password, function (err, res) {
   if (err) return console.log('Problem connecting to redis: '+ err);
   console.log('Connected to Redis at: '+ client.address);
