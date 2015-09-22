@@ -27,6 +27,12 @@ logfile to /usr/local/var/log/redis.log
 dir to /usr/local/var/redis/6379
 ```
 
+You can also add password auth with:
+```shell
+requirepass <password>
+```
+
+
 Start redis now with:
 
 ```console

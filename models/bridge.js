@@ -1,5 +1,3 @@
-var wlog = require('winston');
-
 module.exports = function (sequelize, DataTypes) {
   var Bridge = sequelize.define(
     'bridge',
