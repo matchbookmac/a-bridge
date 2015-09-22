@@ -1,11 +1,7 @@
 var db = require('../models/index');
-var User = db.user;
 var Bridge = db.bridge;
 
 // db.sequelize.sync({force: true}).then(function () {
-  User.create({ email: 'user@example.com', token: '1234' }).then(function () {
-    return;
-  });
   Bridge.create({ name: 'hawthorne', totalUpTime: 0.0, avgUpTime: 0.0, actualCount: 0, scheduledCount: 0 }).then(function () {
     return;
   });
