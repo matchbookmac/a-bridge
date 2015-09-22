@@ -21,7 +21,7 @@ server.connection(options);
 
 // Redis for auth
 var redis = require("redis");
-var redisStore = redis.createClient();
+var redisStore = redis.createClient(serverConfig.redis.port, serverConfig.redis.host);
 if (serverConfig.redis.password) {
   redisStore.auth(serverConfig.redis.password, function (err, res) {
     if (err) return logger.error('Problem connecting to redis: '+ err);
