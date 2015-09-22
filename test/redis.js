@@ -12,7 +12,7 @@ if (serverConfig.redis.password) {
 } else {
   logger.info('Connected to Redis at: '+ redisStore.address);
 }
-client.on("error", function (err) {
+redisStore.on("error", function (err) {
     console.log("Error " + err);
 });
 // crypto.randomBytes(16, function(ex, buf) {
@@ -69,7 +69,7 @@ client.on("error", function (err) {
 //   console.log(res);
 // });
 //
-client.del('ibridge@api.multco.us', function (err, res) {
+redisStore.del('ibridge@api.multco.us', function (err, res) {
   console.log(err);
   console.log(res);
   client.quit();
