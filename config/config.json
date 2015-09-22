@@ -11,7 +11,7 @@
       "headers": {
         "Content-Type": "application/json",
         "Content-Length": 1,
-        "Authorization": "Bearer 1234"
+        "Authorization": "Bearer user@example.com:1234"
       }
     },
     "iBridge": {
@@ -22,7 +22,7 @@
       "headers": {
         "Content-Type": "application/json",
         "Content-Length": 1,
-        "Authorization": "Bearer 1234"
+        "Authorization": "Bearer user@example.com:1234"
       }
     },
     "bridges": {

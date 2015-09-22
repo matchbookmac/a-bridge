@@ -21,6 +21,7 @@
   "author": "Ian MacDonald & Bob Ellis",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "bluebird": "^2.10.1",
     "boom": "^2.9.0",
     "chalk": "^1.1.1",
