@@ -13,7 +13,7 @@ if (serverConfig.redis.password) {
   console.log('Connected to Redis at: '+ redisStore.address);
 }
 redisStore.on("error", function (err) {
-    console.log("Error " + err);
+  console.log("Error " + err);
 });
 // crypto.randomBytes(16, function(ex, buf) {
 //   var token = buf.toString('hex');
@@ -24,7 +24,7 @@ redisStore.on("error", function (err) {
 //       if (err) return console.log(err);
 //       hashToken = hash;
 //       console.log(hashToken);
-//       client.set('lbridge@co.multnomah.or.us', hashToken, function (err, res) {
+//       redisStore.set('lbridge@co.multnomah.or.us', hashToken, function (err, res) {
 //         console.log(err);
 //         console.log(res);
 //       });
@@ -40,7 +40,7 @@ redisStore.on("error", function (err) {
 //       if (err) return console.log(err);
 //       hashToken = hash;
 //       console.log(hashToken);
-//       client.set('abridge@api.multco.us', hashToken, function (err, res) {
+//       redisStore.set('abridge@api.multco.us', hashToken, function (err, res) {
 //         console.log(err);
 //         console.log(res);
 //       });
@@ -56,7 +56,7 @@ redisStore.on("error", function (err) {
 //       if (err) return console.log(err);
 //       hashToken = hash;
 //       console.log(hashToken);
-//       client.set('ibridge@api.multco.us', hashToken, function (err, res) {
+//       redisStore.set('ibridge@api.multco.us', hashToken, function (err, res) {
 //         console.log(err);
 //         console.log(res);
 //       });
@@ -64,7 +64,7 @@ redisStore.on("error", function (err) {
 //   });
 // });
 
-// client.get('thing', function (err, res) {
+// redisStore.get('thing', function (err, res) {
 //   console.log(err);
 //   console.log(res);
 // });
@@ -72,13 +72,13 @@ redisStore.on("error", function (err) {
 redisStore.del('ibridge@api.multco.us', function (err, res) {
   console.log(err);
   console.log(res);
-  client.quit();
+  redisStore.quit();
 });
 //
-// client.get('thing', function (err, res) {
+// redisStore.get('thing', function (err, res) {
 //   console.log(err);
 //   console.log(res);
-//  client.quit();
+//  redisStore.quit();
 // });
 // var hashToken;
 // var token;
@@ -103,4 +103,4 @@ redisStore.del('ibridge@api.multco.us', function (err, res) {
 // });
 
 
-// client.quit();
+// redisStore.quit();
