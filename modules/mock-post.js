@@ -1,24 +1,21 @@
 var http     = require('http');
 var logger   = require('../config/logging');
-var port     = require('../config/config').port;
 var aBridge  = require('../config/config').aBridge;
 var ip       = require('ip');
 
-module .exports = function testPost(bridgeData, sendOptions, callback){
+module .exports = function testPost(bridgeData, options, callback){
   bridgeData = JSON.stringify(bridgeData);
-  if (!sendOptions) sendOptions = {};
-  var
-    options = {
-      hostname: sendOptions.hostname || aBridge.hostname || ip.address(),
-      // "52.26.186.75" for a-bridge
-      port:     sendOptions.port     || port,
-      path:     sendOptions.path     || aBridge.path,
-      method:   sendOptions.method   || aBridge.method,
-      headers:  sendOptions.headers  || aBridge.headers
-    },
-    response = ''
-  ;
+  var response = '';
+
+  if (!options) options = {};
+  options.hostname = options.hostname || aBridge.hostname || ip.address();
+  // "52.26.186.75" for a-bridge
+  options.port     = options.port     || aBridge.port;
+  options.path     = options.path     || aBridge.path ;
+  options.method   = options.method   || aBridge.method;
+  options.headers  = options.headers  || aBridge.headers;
   options.headers["Content-Length"] = bridgeData.length;
+
   var req = http.request(options, function (res) {
     res.setEncoding('utf8');
     var status = res.statusCode;

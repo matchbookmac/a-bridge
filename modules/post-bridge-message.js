@@ -1,7 +1,6 @@
 var https      = require('https');
 var logger     = require('../config/logging');
 var iBridge    = require('../config/config').iBridge;
-var currentEnv = require('../config/config').env;
 
 module .exports = function(bridgeData, options, callback){
   var response = '';

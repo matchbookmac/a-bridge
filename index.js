@@ -4,7 +4,6 @@ var path            = require('path');
 var fs              = require('fs');
 var bcrypt          = require('bcrypt');
 var logger          = require('./config/logging');
-var User            = require('./models/index').user;
 var serverConfig    = require('./config/config');
 var sslConfig       = require('ssl-config')('intermediate');
 var options         = { port: serverConfig.port };
@@ -23,10 +22,14 @@ server.connection(options);
 // Redis for auth
 var redis = require("redis");
 var redisStore = redis.createClient();
-redisStore.auth(serverConfig.redis.password, function (err, res) {
-  if (err) return logger.error('Problem connecting to redis: '+ err);
+if (serverConfig.redis.password) {
+  redisStore.auth(serverConfig.redis.password, function (err, res) {
+    if (err) return logger.error('Problem connecting to redis: '+ err);
+    logger.info('Connected to Redis at: '+ redisStore.address);
+  });
+} else {
   logger.info('Connected to Redis at: '+ redisStore.address);
-});
+}
 
 server.register(plugins, function (err) {
   if (err) logger.error(err);
@@ -54,8 +57,10 @@ server.auth.strategy('simple', 'bearer-access-token', {
       bcrypt.compare(secret, hashToken, function(err, res) {
         if (err) errorResponse(err);
         if (res) {
+          logger.info('User: '+ email +' has authenticated');
           return callback(null, true, { user: email, token: secret });
         } else {
+          logger.warn('User: '+ email +' failed authentication');
           return callback(null, false, { user: email, token: secret });
         }
       });

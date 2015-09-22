@@ -1,6 +1,4 @@
 var joi            = require('joi');
-var receiveActualEvent = require('./handlers/receive-actual-event');
-var receiveScheduledEvent = require('./handlers/receive-scheduled-event');
 
 module.exports = (function () {
   var routes = [
@@ -8,7 +6,7 @@ module.exports = (function () {
       method: 'POST',
       path: '/bridges/events/actual',
       config: {
-        handler: receiveActualEvent,
+        handler: require('./handlers/receive-actual-event'),
         validate: {
           payload: joi.object().keys({
             "bridge": joi.string().required(),
@@ -27,7 +25,7 @@ module.exports = (function () {
       method: 'POST',
       path: '/bridges/events/scheduled',
       config: {
-        handler: receiveScheduledEvent,
+        handler: require('./handlers/receive-scheduled-event'),
         // payload: {
         //   output: 'data',
         //   parse: true,

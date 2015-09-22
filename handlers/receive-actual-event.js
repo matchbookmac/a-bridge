@@ -98,7 +98,10 @@ module .exports = function receiveActualEvent(request, reply) {
         }
       });
     });
-  }).catch(errorResponse);
+  }).catch(function (err) {
+    console.log("3");
+    errorResponse(err);
+  });
   function successResponse(event) {
     reply("event down post received");
   }
