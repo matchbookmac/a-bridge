@@ -6,11 +6,11 @@ var serverConfig = require('../config/config');
 var redisStore = redis.createClient(serverConfig.redis.port, serverConfig.redis.host);
 if (serverConfig.redis.password) {
   redisStore.auth(serverConfig.redis.password, function (err, res) {
-    if (err) return logger.error('Problem connecting to redis: '+ err);
-    logger.info('Connected to Redis at: '+ redisStore.address);
+    if (err) return console.log('Problem connecting to redis: '+ err);
+    console.log('Connected to Redis at: '+ redisStore.address);
   });
 } else {
-  logger.info('Connected to Redis at: '+ redisStore.address);
+  console.log('Connected to Redis at: '+ redisStore.address);
 }
 redisStore.on("error", function (err) {
     console.log("Error " + err);
