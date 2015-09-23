@@ -70,6 +70,6 @@ module .exports = function receiveScheduledEvent(request, reply) {
   }
 
   function errorResponse(err) {
-    reply(boom.badRequest("There was an error with your schedule post: " + err));
+    return reply(boom.badRequest("There was an error with your schedule post: " + err));
   }
 };

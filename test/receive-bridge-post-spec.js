@@ -5,7 +5,7 @@ var aBridge     = require('../config/config').aBridge;
 var mockPost    = require('../modules/mock-post');
 
 describe('receivePost', function () {
-  var server = require('../index');
+  var server = require('../index').server;
 
   it('successfully receives post to a-bridge', function (done) {
     var testMessage = {

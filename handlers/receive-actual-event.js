@@ -106,6 +106,6 @@ module .exports = function receiveActualEvent(request, reply) {
     reply("event down post received");
   }
   function errorResponse(err) {
-    reply(boom.badRequest("There was an error with your event post: " + err));
+    return reply(boom.badRequest("There was an error with your event post: " + err));
   }
 };

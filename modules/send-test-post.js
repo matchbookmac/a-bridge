@@ -16,6 +16,7 @@ var timeStamp   = argv.t || argv.timestamp || new Date();
 var status      = argv.s || argv.status;
 var scheduled   = argv.S || argv.scheduled;
 var type        = argv.T || argv.type;
+var user        = argv.u || argv.user;
 var othMsgVals  = argv._;
 
 var message;
@@ -24,7 +25,6 @@ if (scheduled) {
   var todayUTC = Date.now() + 1000 * 60 * 60 * 2;
   var defaultLiftTime = new Date(0);
   defaultLiftTime.setUTCMilliseconds(todayUTC);
-// TODO: Change to match schema
   message = {
     bridge:            bridge   ? bridge   : "bailey's bridge",
     type:              status   ? status   : "testing",
@@ -42,6 +42,13 @@ if (scheduled) {
 
 if (othMsgVals.length > 0) {
   message.othMsgVals = othMsgVals;
+}
+
+if (user) {
+ message = {
+   email: user || "1234@thing.com"
+ };
+ path = '/users/new';
 }
 
 if (hostname) options.hostname = hostname;

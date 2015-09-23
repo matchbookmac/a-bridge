@@ -30,6 +30,7 @@ if (serverConfig.redis.password) {
 } else {
   logger.info('Connected to Redis at: '+ redisStore.address);
 }
+module.exports.redisStore = redisStore;
 
 server.register(plugins, function (err) {
   if (err) logger.error(err);
@@ -74,9 +75,11 @@ server.auth.strategy('simple', 'bearer-access-token', {
 
 server.route(require('./routes'));
 
-module .exports = (function () {
+var server = (function startServer() {
   server.start(function(){
     logger.info('Server running at:', server.info.uri);
   });
   return server;
 })();
+
+module.exports.server = server;
