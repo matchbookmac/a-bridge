@@ -1,4 +1,4 @@
-var http     = require('http');
+var http     = require('https');
 var logger   = require('../config/logging');
 var aBridge  = require('../config/config').aBridge;
 var ip       = require('ip');
