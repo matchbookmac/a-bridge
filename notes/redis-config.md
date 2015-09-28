@@ -1,11 +1,11 @@
 ## Redis Setup (Dev)
-This doesn't work yet. following:
+following:
 http://naleid.com/blog/2011/03/05/running-redis-as-a-user-daemon-on-osx-with-launchd
 http://mac-dev-env.patrickbougie.com/redis/
 ### Install Redis
 Follow http://redis.io/topics/quickstart to make redis, and make Install
 
-I moved the source file to ~/Applications or you can just leave it in ~
+I downloaded the src into /usr/local/src
 
 ```console
 sudo mkdir /usr/local/var/redis
@@ -50,7 +50,7 @@ Quit redis-server with ^C
 Back in console:
 
 ```console
-vim /Library/LaunchAgents/io.redis.redis-server.plist
+sudo vim /Library/LaunchAgents/io.redis.redis-server.plist
 ```
 
 And drop the following into that file:
