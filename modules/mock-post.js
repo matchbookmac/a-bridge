@@ -10,7 +10,7 @@ module .exports = function testPost(bridgeData, options, callback){
 
   if (!options) options = {};
   options.hostname = options.hostname || aBridge.hostname || ip.address();
-  // "52.26.186.75" for a-bridge
+  // "a-bridge.api.multco.us" for a-bridge
   options.port     = options.port     || aBridge.port;
   options.path     = options.path     || aBridge.path ;
   options.method   = options.method   || aBridge.method;

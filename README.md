@@ -165,6 +165,16 @@ node modules/send-test-post.js -s false
 node modules/send-test-post.js -dS
 ```
 
+*Create User Development*
+```console
+node modules/send-test-post.js -u user@example.com
+```
+
+*Create User Production USE WITH CARE*
+```console
+NODE_ENV=production node modules/send-test-post.js -u user@example.com -h a-bridge.api.multco.us
+```
+
 *Options*
 ```console
                     ~~ HTTP POST body options ~~
@@ -217,6 +227,8 @@ The following options are available only for scheduled event mocks.
 -p | --port      : Port at `hostname` to send to. Default is `80`.
 -P | --path      : Path at `hostname:port` to send to. If -d flag is passed,
                    this option will be ignored.
+-u | --user      : Create a user for authentication to the api. Use the syntax
+                   -u user@email.com, replacing the email with an actual email.
 
 Any other arguments without `-` or `--` will be sent as an array of values assigned to the property `othMsgVals` on the http post body:
 

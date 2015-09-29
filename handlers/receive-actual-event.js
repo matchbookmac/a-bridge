@@ -1,4 +1,3 @@
-var strftime       = require('strftime');
 var boom           = require('boom');
 var util           = require('util');
 var Promise        = require("bluebird");
@@ -38,12 +37,14 @@ module .exports = function receiveActualEvent(request, reply) {
       bridgeStatuses[bridge.name].status ? 'up' : 'down',
       event.timeStamp.toString()
     );
-    var timeStamp  = strftime("%Y/%m/%d %H:%M:%S", event.timeStamp);
+    // If this is an 'up' event
     if (event.status){
       reply("event up post received");
       var actualEvent = {
         name: bridge.name,
-        uptime: timeStamp
+        upTime: event.timeStamp,
+        // Set delay to overlook false openings
+        timer: setTimeout(postAfterDelay, 60500)
       };
       //check to see if there are any unclosed bridge openings, if so then delete them and replace with this new bridge opening
       for (i = 0; i < bridgeOpenings.length; i++){
@@ -51,29 +52,45 @@ module .exports = function receiveActualEvent(request, reply) {
           bridgeOpenings.splice(i, 1);
         }
       }
+      // Keep track of which bridges are open
       bridgeOpenings.push(actualEvent);
+    // If this is an 'down' event
     } else {
-      if (bridgeOpenings.length === 0) successResponse();
-      for (i = 0; i < bridgeOpenings.length; i++){
+      // If this is a stray 'down' event, do nothing
+      if (bridgeOpenings.length === 0) {
+        successResponse();
+      } else {
+        var found = false;
         //check to see if there are any open bridge events that correspond with this close event
-        if (bridgeOpenings[i].name === bridge.name){
-          Promise.all([
-            ActualEvent.create({
-              bridgeId: bridge.id,
-              upTime: bridgeOpenings[i].uptime,
-              downTime: timeStamp
-            }),
-            ActualEvent.count({
-              where: {
-                bridgeId: bridge.id
-              }
-            })
-          ]).then(updateBridge)
-            .catch(errorResponse);
-          bridgeOpenings.splice(i, 1);
-        } else {
-          successResponse();
+        for (i = 0; i < bridgeOpenings.length; i++){
+          if (bridgeOpenings[i].name === bridge.name) {
+            found = true;
+            // clear delay of 60s to overlook false openings
+            if (event.timeStamp - bridgeOpenings[i].upTime < 60 * 1000) {
+              clearTimeout(bridgeOpenings[i].timer);
+              successResponse();
+            } else {
+              // If this is not a false alarm, add event to db, and update bridge data
+              Promise.all([
+                ActualEvent.create({
+                  bridgeId: bridge.id,
+                  upTime: bridgeOpenings[i].upTime,
+                  downTime: event.timeStamp
+                }),
+                ActualEvent.count({
+                  where: {
+                    bridgeId: bridge.id
+                  }
+                })
+              ]).then(updateBridge)
+                .catch(errorResponse);
+              // Relay the 'down' event to i-bridge
+              postAfterDelay();
+            }
+            bridgeOpenings.splice(i, 1);
+          }
         }
+        if (!found) successResponse();
       }
     }
     function updateBridge(results) {
@@ -87,25 +104,26 @@ module .exports = function receiveActualEvent(request, reply) {
       }).then(successResponse)
         .catch(errorResponse);
     }
-    postBridgeMessage(bridgeStatuses, null, function (err, res, status) {
-      handlePostResponse(status, bridgeStatuses, function (err, status) {
-        if (err) {
-          logger.error("Error posting\n%s\n%s\nStatus: %s",
-            util.inspect(bridgeStatuses),
-            util.inspect(err),
-            status
-          );
-        }
+    function postAfterDelay() {
+      postBridgeMessage(bridgeStatuses, null, function (err, res, status) {
+        handlePostResponse(status, bridgeStatuses, function (err, status) {
+          if (err) {
+            logger.error("Error posting\n%s\n%s\nStatus: %s",
+              util.inspect(bridgeStatuses),
+              util.inspect(err),
+              status
+            );
+          }
+        });
       });
-    });
+    }
   }).catch(function (err) {
-    console.log("3");
     errorResponse(err);
   });
-  function successResponse(event) {
+  function successResponse() {
     reply("event down post received");
   }
   function errorResponse(err) {
-    return reply(boom.badRequest("There was an error with your event post: " + err));
+    reply(boom.badRequest("There was an error with your event post: " + err));
   }
 };
