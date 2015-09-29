@@ -1,24 +1,68 @@
 ## Requirements
 
-- Node.js >= 0.10.x
+- Node.js >= 4.0.0
   - `sudo apt-get nodejs` on ubuntu
-- npm >= 1.4.28
+- npm >= 2.14.2
 - mySQL 5.6
+- Redis
 
 ## Deployment
 
 For "deploying" on a-bridge (a-bridge.internal.mcix.us)
 
+If a-bridge is already configured and has production code:
+
+```console
+cd /opt/a-bridge
+sudo git pull
+sudo chown -R www-data:www-data .
+sudo npm i
+npm restart
+```
+
 If starting from scratch:
 
 ```console
-git clone https://multco.git.beanstalkapp.com/a-bridgeapp.git
-cd a-bridgeapp
-npm install
-npm install -g forever nodemon jshint sequelize-cli gulp
+cd /opt
+git clone https://multco.git.beanstalkapp.com/a-bridgeapp.git a-bridge
+sudo chown -R www-data:www-data a-bridge/
+cd a-bridge/
+sudo npm install
+sudo npm install -g jshint sequelize-cli gulp
 ```
 
-We are using upstart to daemonize the node server as a service.
+We are using upstart to run the node server as a daemon in production. Those commands are used for `npm run {start/stop/restart}`.
+
+The upstart file is in `/etc/init/a-bridge.conf`
+```shell
+#!upstart
+# using upstart http://upstart.ubuntu.com/getting-started.html and node forever  https://github.com/nodejitsu/forever/
+
+description "a-bridge node app"
+author      "Multnomah County"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+respawn limit 20 5
+
+limit nofile 32768 32768
+
+script
+    export HOME="/root"
+    chdir /opt/a-bridge
+    exec sudo -u www-data PORT=8080 NODE_ENV=production /usr/local/bin/node /opt/a-bridge/index.js >> /opt/a-bridge/logs/app.log 2>&1
+end script
+
+pre-start script
+    echo "`date -u +%Y-%m-%dT%T.%3NZ`: starting" >> /opt/a-bridge/logs/app.log
+end script
+
+pre-stop script
+    echo "[`date -u +%Y-%m-%dT%T.%3NZ`]: stopping" >> /opt/a-bridge/logs/app.log
+end script
+```
 
 ### Setup Database
 *development*
@@ -30,7 +74,7 @@ gulp db:seed
 
 *production*
 
-The database should be already setup in prod. If it isn't, you can make a gulp task similar to the deve db:migrate that will set it up for you.
+The database should be already setup in prod. If it isn't, you can make a gulp task similar to the dev db:migrate that will set it up for you.
 For changes to the db:
 ```console
 gulp db:migrate:production
@@ -42,12 +86,21 @@ http://sequelize.readthedocs.org/en/latest/docs/associations/#one-to-many-associ
 
 ### Start server:
 
-*Production (no jshint):*
+*Production:*
 ```console
-npm run prod-start
+sudo start a-bridge
+```
+or after making changes:
+```console
+sudo stop a-bridge
+sudo start a-bridge
+```
+OR
+```console
+npm restart
 ```
 
-*Development (with jshint):*
+*Development (with jshint and nodemon):*
 ```console
 npm start
 ```
@@ -165,6 +218,113 @@ Any other arguments without `-` or `--` will be sent as an array of values assig
   }
 
 Extraneous options with `-` or `--` that are not listed above will be ignored.
+```
+
+## Redis Setup For production
+
+We are using AWS Redis as a service in production, the host and port are specified in that setup. Contact your friendly devops team to adjust or implement those settings. The current configuration for production is housed in config.json.
+
+### Redis Setup For Development
+following:
+http://naleid.com/blog/2011/03/05/running-redis-as-a-user-daemon-on-osx-with-launchd
+http://mac-dev-env.patrickbougie.com/redis/
+
+#### Install Redis
+Follow http://redis.io/topics/quickstart to make redis, and make Install
+
+I downloaded the src into /usr/local/src
+
+```console
+sudo mkdir /usr/local/var/redis
+sudo mkdir /usr/local/var/redis/6379
+sudo mkdir /usr/local/etc/redis
+```
+
+From Redis source directory:
+
+```console
+sudo cp redis.conf /usr/local/etc/redis/redis.conf
+sudo vim /usr/local/etc/redis/redis.conf
+```
+
+Change:
+
+```shell
+logfile to /usr/local/var/log/redis.log
+dir to /usr/local/var/redis/6379
+```
+
+You can also add password auth with:
+```shell
+requirepass <password>
+```
+
+
+Start redis now with:
+
+```console
+sudo redis-server /usr/local/etc/redis/redis.conf
+```
+
+Then ping it:
+
+```console
+redis-cli
+> ping
+```
+Quit redis-server with ^C
+
+Back in console:
+
+```console
+sudo vim /Library/LaunchAgents/io.redis.redis-server.plist
+```
+
+And drop the following into that file:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>io.redis.redis-server</string>
+
+    <key>ProgramArguments</key>
+    <array>
+      <string>/usr/local/bin/redis-server</string>
+      <string>/usr/local/etc/redis/redis.conf</string>
+    </array>
+
+    <key>StandardOutPath</key>
+    <string>/usr/local/var/log/redis.log</string>
+    <key>StandardErrorPath</key>
+    <string>/usr/local/var/log/redis.log</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+  </dict>
+</plist>
+```
+
+Then load it up on start:
+
+```console
+sudo launchctl load /Library/LaunchAgents/io.redis.redis-server.plist
+```
+or deregister:
+
+```console
+sudo launchctl unload /Library/LaunchAgents/io.redis.redis-server.plist
+```
+
+Also, start or stop:
+
+```console
+sudo launchctl start io.redis.redis-server
+sudo launchctl stop io.redis.redis-server
 ```
 
 ## Updating node and npm
