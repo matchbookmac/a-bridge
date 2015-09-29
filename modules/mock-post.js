@@ -1,4 +1,5 @@
-var http     = require('https');
+var env      = require('../config/config').env;
+var http     = env === 'production' ? require('https') : require('http');
 var logger   = require('../config/logging');
 var aBridge  = require('../config/config').aBridge;
 var ip       = require('ip');

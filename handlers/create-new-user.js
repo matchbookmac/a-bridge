@@ -23,7 +23,7 @@ module .exports = function receiveActualEvent(request, reply) {
             redisStore.set(email, hashToken, function (err, res) {
               if (err) errorResponse(err);
               if (res) {
-                var response = reply('User created', { email: email, token: token });
+                var response = reply({ email: email, token: token });
                 response.statusCode = 201;
                 logger.info('User created: '+ email);
               } else {
