@@ -28,7 +28,8 @@ module .exports = function receiveActualEvent(request, reply) {
     previousScheduledLift = bridgeStatuses[bridge.name] ? bridgeStatuses[bridge.name].scheduledLift : null;
     bridgeStatuses[bridge.name] = {
       status: event.status,
-      scheduledLift: event.status ? null : previousScheduledLift
+      scheduledLift: event.status ? null : previousScheduledLift,
+      lastFive: "test data"
     };
     bridgeStatuses.changed.bridge = bridge.name;
     bridgeStatuses.changed.item = "status";
