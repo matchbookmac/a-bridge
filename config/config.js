@@ -37,13 +37,18 @@ var bridges = envVars.bridges;
 
 var bridgeOpenings = [];
 
-module .exports = {
-  port: port(),
-  env: currentEnv,
-  envVars: envVars,
-  aBridge: aBridge(),
-  iBridge: iBridge(),
-  redis: redis(),
-  bridges: bridges,
-  bridgeOpenings: bridgeOpenings
+exports = module.exports = function () {
+  var config = {
+    port: port(),
+    env: currentEnv,
+    envVars: envVars,
+    aBridge: aBridge(),
+    iBridge: iBridge(),
+    redis: redis(),
+    bridges: bridges,
+    bridgeOpenings: bridgeOpenings
+  };
+  return config;
 };
+
+exports['@singleton'] = true;

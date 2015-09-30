@@ -1,8 +1,13 @@
+var injector = require('electrolyte');
+injector.loader(injector.node('config'));
+injector.loader(injector.node('modules'));
+var mockPost = injector.create('./mock-post');
+var config   = injector.create('config');
 
 var argv        = require('minimist')(process.argv.slice(2));
-var testPost    = require('./mock-post');
 var _           = require('lodash');
 var options     = {};
+
 var bridge      = argv.b || argv.bridge;
 var defaultPath = argv.d || argv.defaultPath;
 var hostname    = argv.h || argv.hostname;
@@ -60,12 +65,12 @@ if (headers)  options.headers  = headers;
 if (multiple > 1) {
   var postInterval = setInterval(function () {
     if (multiple <= 0) return clearInterval(postInterval);
-    testPost(message, options);
+    mockPost(message, options);
     if (multiple > 1 && !scheduled) {
       message.status = !message.status;
     }
     multiple -= 1;
   }, 1000);
 } else {
-  testPost(message, options);
+  mockPost(message, options);
 }
