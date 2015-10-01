@@ -50,7 +50,6 @@ exports = module.exports = function (logger, config, redisStore, db) {
 
   }
 
-  redisStore.unref();
   function redis() {
     bcrypt.genSalt(10, function(err, salt) {
       bcrypt.hash('1234', salt, function(err, hash) {

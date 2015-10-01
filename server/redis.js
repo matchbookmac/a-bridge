@@ -8,7 +8,6 @@ exports = module.exports = function (logger, serverConfig) {
   redisStore.on("connect", function () {
     logger.info('Connected to Redis at: '+ redisStore.address);
   });
-  redisStore.unref();
 
   return redisStore;
 };
