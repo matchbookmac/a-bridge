@@ -37,6 +37,21 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
         bridgeStatuses[bridge.name].status ? 'up' : 'down',
         event.timeStamp.toString()
       );
+      // Find last five events
+      ActualEvent.findAll({
+        order: 'upTime DESC',
+        where: {
+          bridgeId: bridge.id
+        },
+        limit: 5
+      }).then(function (rows) {
+          bridgeStatuses[bridge.name].lastFive = rows;
+        })
+        .catch(function (err) {
+          logger.error(err);
+          logger.error('Could not find events for bridge:', bridgeStatuses.changed.bridge);
+          bridgeStatuses[bridge.name].lastFive = null;
+        });
       // If this is an 'up' event
       if (event.status){
         reply("event up post received");
