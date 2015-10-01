@@ -37,14 +37,9 @@ function redis() {
 }
 
 function database() {
-  // var stream = fs.createWriteStream(path.resolve(__dirname,
-  //   '../models/db/database.json'),
-  //   { flags: 'w', encoding: 'utf8', mode: 0666 }
-  // ).write(
-  //   "{\""+
-  //     currentEnv +"\": "+ JSON.stringify(envVars.database) +
-  //   "}"
-  // );
+  // We overwrite database.json with the database config in config.json
+  // That way we maintain db config in just one place. We need this
+  // database.json file in order for sequelize to work
   var configJSON = require('./config.json');
   var stream = fs.createWriteStream(path.resolve(__dirname,
     '../models/db/database.json'),
