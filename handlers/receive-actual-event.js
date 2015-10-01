@@ -27,8 +27,7 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
       previousScheduledLift = bridgeStatuses[bridge.name] ? bridgeStatuses[bridge.name].scheduledLift : null;
       bridgeStatuses[bridge.name] = {
         status: event.status,
-        scheduledLift: event.status ? null : previousScheduledLift,
-        lastFive: "test data"
+        scheduledLift: event.status ? null : previousScheduledLift
       };
       bridgeStatuses.changed.bridge = bridge.name;
       bridgeStatuses.changed.item = "status";
