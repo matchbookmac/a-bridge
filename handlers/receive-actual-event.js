@@ -44,6 +44,7 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
         },
         limit: 5
       }).then(function (rows) {
+          logger.info("rows: " + rows);
           bridgeStatuses[bridge.name].lastFive = rows;
         })
         .catch(function (err) {
