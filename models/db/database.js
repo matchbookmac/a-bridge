@@ -7,8 +7,8 @@ var Sequelize = require('sequelize');
 exports = module.exports = function (config, logger) {
 
   var basename  = path.basename(module.filename);
-  var env       = process.env.NODE_ENV || config.env || 'development';
-  var dbConfig  = require(__dirname + '/database.json')[env];
+  var env       = config.env || 'development';
+  var dbConfig  = config.database;
   if (env === 'development') dbConfig.logging = logger.debug;
   var sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig);
   var db        = {};

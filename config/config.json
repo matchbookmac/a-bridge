@@ -5,6 +5,14 @@
       "host":"127.0.0.1",
       "password": "8524c7ba484f5b3f709cfc4bf0f0b28bf4ccda57627ca6b742304c3d95c2602585c2dedca1a30190f00607ced2e41e07"
     },
+    "database": {
+      "username": "root",
+      "password": "",
+      "port": 3307,
+      "database": "a_bridge_development",
+      "host": "localhost",
+      "dialect": "mysql"
+    },
     "aBridge": {
       "hostname": "127.0.0.1",
       "port": 8080,
@@ -59,6 +67,15 @@
       "port":"6379",
       "host":"127.0.0.1",
       "password": "8524c7ba484f5b3f709cfc4bf0f0b28bf4ccda57627ca6b742304c3d95c2602585c2dedca1a30190f00607ced2e41e07"
+    },
+    "database": {
+      "username": "root",
+      "password": "",
+      "port": 3307,
+      "database": "a_bridge_test",
+      "host": "localhost",
+      "dialect": "mysql",
+      "logging": false
     },
     "aBridge": {
       "hostname": "127.0.0.1",
@@ -117,6 +134,15 @@
     "redis": {
       "port":"6379",
       "host":"bridgeapp-shared.kbahai.0001.usw2.cache.amazonaws.com"
+    },
+    "database": {
+      "username": "bridgeapp",
+      "password": "2HY4hykACYHmQK8g",
+      "port": 3306,
+      "database": "bridgeapp",
+      "host": "api-rds-bridges.clvekbxagtjv.us-west-2.rds.amazonaws.com",
+      "dialect": "mysql",
+      "logging": false
     },
     "aBridge": {
       "port": 443,

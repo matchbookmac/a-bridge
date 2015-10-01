@@ -1,4 +1,7 @@
 var ip      = require('ip');
+var stream  = require('stream');
+var path    = require('path');
+var fs      = require('fs');
 var argv    = require('minimist')(process.argv.slice(2));
 
 var currentEnv = (function environment() {
@@ -33,6 +36,28 @@ function redis() {
   return envVars.redis;
 }
 
+function database() {
+  // var stream = fs.createWriteStream(path.resolve(__dirname,
+  //   '../models/db/database.json'),
+  //   { flags: 'w', encoding: 'utf8', mode: 0666 }
+  // ).write(
+  //   "{\""+
+  //     currentEnv +"\": "+ JSON.stringify(envVars.database) +
+  //   "}"
+  // );
+  var configJSON = require('./config.json');
+  var stream = fs.createWriteStream(path.resolve(__dirname,
+    '../models/db/database.json'),
+    { flags: 'w', encoding: 'utf8', mode: 0666 }
+  );
+  stream.write(JSON.stringify({
+    development: configJSON.development.database,
+    test: configJSON.test.database,
+    production: configJSON.production.database
+  }));
+  return envVars.database;
+}
+
 var bridges = envVars.bridges;
 
 var bridgeOpenings = [];
@@ -45,6 +70,7 @@ exports = module.exports = function () {
     aBridge: aBridge(),
     iBridge: iBridge(),
     redis: redis(),
+    database: database(),
     bridges: bridges,
     bridgeOpenings: bridgeOpenings
   };

@@ -80,7 +80,8 @@ end script
 ```console
 gulp db:create
 gulp db:migrate
-gulp db:seed
+gulp db:seed:mysql
+gulp db:seed:redis
 ```
 
 *production*
@@ -89,7 +90,8 @@ The database should be already setup in prod. If it isn't, you can make a gulp t
 For changes to the db:
 ```console
 gulp db:migrate:production
-gulp db:seed:production
+NODE_ENV=production gulp db:seed:mysql
+NODE_ENV=production gulp db:seed:redis
 ```
 
 We are using sequelize as the ORM for the database, the documentation is here, and is quite good:
