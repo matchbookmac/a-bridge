@@ -47,6 +47,10 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
           // Set delay to overlook false openings
           timer: setTimeout(postAfterDelay, 60500)
         };
+        // Remove closest scheduledLift if there are any
+        if (bridgeStatuses[bridge.name].scheduledLift) {
+          bridgeStatuses[bridge.name].scheduledLift.shift();
+        }
         //check to see if there are any unclosed bridge openings, if so then delete them and replace with this new bridge opening
         for (i = 0; i < bridgeOpenings.length; i++){
           if(bridgeOpenings[i].name === bridge.name){

@@ -38,27 +38,27 @@
     "bridges": {
       "hawthorne": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "morrison": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "burnside": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "broadway": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "cuevas crossing": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "changed": {
@@ -107,32 +107,32 @@
     "bridges": {
       "hawthorne": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "morrison": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "burnside": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "broadway": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "cuevas crossing": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "baileys bridge": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "changed": {
@@ -179,22 +179,22 @@
     "bridges": {
       "hawthorne": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "morrison": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "burnside": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "broadway": {
         "status": false,
-        "scheduledLift": null,
+        "scheduledLift": [],
         "lastFive": null
       },
       "changed": {

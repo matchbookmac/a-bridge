@@ -28,7 +28,7 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
       delete event.bridge;
       bridgeStatuses[bridge.name] = {
         status: currentStatus,
-        scheduledLift: _.cloneDeep(event)
+        scheduledLift: scheduledLift.push(event)
       };
       event.bridgeId = bridge.id;
       bridgeStatuses.changed.bridge = bridge.name;
