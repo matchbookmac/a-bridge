@@ -24,18 +24,30 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
     }).then(function (bridge) {
       bridge = bridge[0];
       // Assemble current status for bridge
-      currentStatus = bridgeStatuses[bridge.name] ? bridgeStatuses[bridge.name].status : false;
+      var currentStatus, currentScheduledLifts, lastFive;
+      if (bridgeStatuses[bridge.name]) {
+        currentStatus = bridgeStatuses[bridge.name].status;
+        currentScheduledLifts = bridgeStatuses[bridge.name].scheduledLifts;
+        lastFive = bridgeStatuses[bridge.name].lastFive;
+      } else {
+        currentStatus = false;
+        currentScheduledLifts = [];
+        lastFive = [];
+      }
       delete event.bridge;
+      currentScheduledLifts.push(event);
       bridgeStatuses[bridge.name] = {
         status: currentStatus,
-        scheduledLift: scheduledLift.push(event)
+        scheduledLifts: currentScheduledLifts,
+        lastFive: lastFive
       };
+console.log(bridgeStatuses[bridge.name].scheduledLifts);
       event.bridgeId = bridge.id;
       bridgeStatuses.changed.bridge = bridge.name;
-      bridgeStatuses.changed.item = "scheduledLift";
+      bridgeStatuses.changed.item = "scheduledLifts";
       logger.info("%s %s lift scheduled for %s at %s",
         bridge.name,
-        bridgeStatuses[bridge.name].scheduledLift.type,
+        bridgeStatuses[bridge.name].scheduledLifts.type,
         event.estimatedLiftTime.toString(),
         event.requestTime.toString()
       );

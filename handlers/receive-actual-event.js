@@ -24,10 +24,10 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
     }).then(function (bridge) {
       // Assemble current status for bridge
       bridge = bridge[0];
-      previousScheduledLift = bridgeStatuses[bridge.name] ? bridgeStatuses[bridge.name].scheduledLift : null;
+      previousScheduledLifts = bridgeStatuses[bridge.name] ? bridgeStatuses[bridge.name].scheduledLifts : [];
       bridgeStatuses[bridge.name] = {
         status: event.status,
-        scheduledLift: event.status ? null : previousScheduledLift
+        scheduledLifts: previousScheduledLifts
       };
       bridgeStatuses.changed.bridge = bridge.name;
       bridgeStatuses.changed.item = "status";
@@ -48,9 +48,11 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
           timer: setTimeout(postAfterDelay, 60500)
         };
         // Remove closest scheduledLift if there are any
-        if (bridgeStatuses[bridge.name].scheduledLift) {
-          bridgeStatuses[bridge.name].scheduledLift.shift();
+console.log(bridgeStatuses[bridge.name].scheduledLifts);
+        if (bridgeStatuses[bridge.name].scheduledLifts) {
+          bridgeStatuses[bridge.name].scheduledLifts.shift();
         }
+console.log(bridgeStatuses[bridge.name].scheduledLifts);
         //check to see if there are any unclosed bridge openings, if so then delete them and replace with this new bridge opening
         for (i = 0; i < bridgeOpenings.length; i++){
           if(bridgeOpenings[i].name === bridge.name){
@@ -61,6 +63,7 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
         bridgeOpenings.push(actualEvent);
       // If this is an 'down' event
       } else {
+console.log(bridgeStatuses[bridge.name].scheduledLifts);
         // If this is a stray 'down' event, do nothing
         if (bridgeOpenings.length === 0) {
           successResponse();
@@ -114,7 +117,7 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
           .catch(function (err) {
             logger.error(err);
             logger.error('Could not find events for bridge:', bridgeStatuses.changed.bridge);
-            bridgeStatuses[bridge.name].lastFive = null;
+            bridgeStatuses[bridge.name].lastFive = [];
             if (next) next();
           });
       }
