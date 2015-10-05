@@ -103,15 +103,15 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
           },
           limit: 5
         }).then(function (rows) {
-            logger.info("rows: " + util.inspect(rows));
+            logger.info("rows: " + rows);
             bridgeStatuses[bridge.name].lastFive = rows;
-            next();
+            if (next) next();
           })
           .catch(function (err) {
             logger.error(err);
             logger.error('Could not find events for bridge:', bridgeStatuses.changed.bridge);
             bridgeStatuses[bridge.name].lastFive = null;
-            next();
+            if (next) next();
           });
       }
       function updateBridge(results) {
