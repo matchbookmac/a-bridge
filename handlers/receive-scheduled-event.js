@@ -35,21 +35,20 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
         lastFive = [];
       }
       delete event.bridge;
-      currentScheduledLifts.push(event);
+      currentScheduledLifts.splice(_.sortedLastIndex(currentScheduledLifts, event, 'estimatedLiftTime'), 0, event);
       bridgeStatuses[bridge.name] = {
         status: currentStatus,
         scheduledLifts: currentScheduledLifts,
         lastFive: lastFive
       };
-console.log(bridgeStatuses[bridge.name].scheduledLifts);
       event.bridgeId = bridge.id;
       bridgeStatuses.changed.bridge = bridge.name;
       bridgeStatuses.changed.item = "scheduledLifts";
-      logger.info("%s %s lift scheduled for %s at %s",
+      logger.info("%s %s lift scheduled\n      Scheduled lifts for %s:\n%s\n",
         bridge.name,
-        bridgeStatuses[bridge.name].scheduledLifts.type,
-        event.estimatedLiftTime.toString(),
-        event.requestTime.toString()
+        _.last(bridgeStatuses[bridge.name].scheduledLifts).type,
+        bridge.name,
+        util.inspect(currentScheduledLifts)
       );
       Promise.all([
         ScheduledEvent.create(event),
@@ -62,7 +61,7 @@ console.log(bridgeStatuses[bridge.name].scheduledLifts);
         .catch(errorResponse);
       postBridgeMessage(bridgeStatuses, null, function (err, res, status) {
         handlePostResponse(status, bridgeStatuses, function (err, status) {
-          if (err) logger.error("Error posting\n" + util.inspect(bridgeStatuses) + ":\n" + util.inspect(err) + "\n Status: " + status);
+          if (err) logger.error("Error posting\n" + util.inspect(bridgeStatuses, { depth: 3 }) + ":\n" + util.inspect(err) + "\n Status: " + status);
         });
       });
 

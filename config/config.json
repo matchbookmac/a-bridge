@@ -25,14 +25,14 @@
       }
     },
     "iBridge": {
-      "hostname": "api.multco.us",
-      "port": 443,
+      "hostname": "127.0.0.1",
+      "port": 8000,
       "path": "/bridges/statuses",
       "method": "POST",
       "headers": {
         "Content-Type": "application/json",
         "Content-Length": 1,
-        "Authorization": "Bearer abridge@api.multco.us:b0927125dc1dcd8226abf4282feb7d95"
+        "Authorization": "Bearer user@example.com:1234"
       }
     },
     "bridges": {

@@ -1,6 +1,5 @@
-var https = require('https');
-
 exports = module.exports = function (logger, serverConfig) {
+  var http    = serverConfig.env === 'production' ? require('https') : require('http');
   var iBridge = serverConfig.iBridge;
   function postBridgeMessage(bridgeData, options, callback){
     var response = '';
@@ -13,7 +12,7 @@ exports = module.exports = function (logger, serverConfig) {
     options.headers  = options.headers  || iBridge.headers;
     options.headers["Content-Length"] = JSON.stringify(bridgeData).length;
 
-    var req = https.request(options, function (res) {
+    var req = http.request(options, function (res) {
       res.setEncoding('utf8');
       var status = res.statusCode;
 
