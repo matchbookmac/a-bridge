@@ -48,11 +48,9 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
           timer: setTimeout(postAfterDelay, 60500)
         };
         // Remove closest scheduledLift if there are any
-console.log(bridgeStatuses[bridge.name].scheduledLifts);
         if (bridgeStatuses[bridge.name].scheduledLifts) {
           bridgeStatuses[bridge.name].scheduledLifts.shift();
         }
-console.log(bridgeStatuses[bridge.name].scheduledLifts);
         //check to see if there are any unclosed bridge openings, if so then delete them and replace with this new bridge opening
         for (i = 0; i < bridgeOpenings.length; i++){
           if(bridgeOpenings[i].name === bridge.name){
@@ -63,7 +61,6 @@ console.log(bridgeStatuses[bridge.name].scheduledLifts);
         bridgeOpenings.push(actualEvent);
       // If this is an 'down' event
       } else {
-console.log(bridgeStatuses[bridge.name].scheduledLifts);
         // If this is a stray 'down' event, do nothing
         if (bridgeOpenings.length === 0) {
           successResponse();
