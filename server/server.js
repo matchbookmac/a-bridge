@@ -5,7 +5,6 @@ var fs              = require('fs');
 
 exports = module.exports = function (logger, serverConfig, routes, plugins, onResponse, auth) {
 
-
   // Setup new Hapi server
   var server = new Hapi.Server();
   server.connection({ port: serverConfig.port });
