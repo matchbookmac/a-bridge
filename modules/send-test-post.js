@@ -74,4 +74,3 @@ if (multiple > 1) {
 } else {
   mockPost(message, options);
 }
-// "Bearer abridge@api.multco.us:b0927125dc1dcd8226abf4282feb7d95"

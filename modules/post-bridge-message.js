@@ -1,5 +1,6 @@
 exports = module.exports = function (logger, serverConfig) {
-  var http    = serverConfig.env === 'production' ? require('https') : require('http');
+  // var http    = serverConfig.env === 'production' ? require('https') : require('http');
+  var http    = require('https');
   var iBridge = serverConfig.iBridge;
   function postBridgeMessage(bridgeData, options, callback){
     var response = '';
