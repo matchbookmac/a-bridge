@@ -11,19 +11,13 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
   function receiveActualEvent(request, reply) {
     var event = request.payload;
     var bridge = event.bridge.replace(/\'/g, "");
-    Bridge.findOrCreate({
-      where: {
-        name: bridge,
-        totalUpTime: {
-          $gte: 0
-        },
-        avgUpTime: {
-          $gte: 0
-        }
+    Bridge.findOne({ where: { name: bridge } }).then(function (bridge) {
+      // Do not proceede if bridge does not exist
+      if (!bridge) {
+        logger.warn('Could not find bridge: '+ bridge);
+        return errorResponse('Could not find bridge: '+ bridge);
       }
-    }).then(function (bridge) {
       // Assemble current status for bridge
-      bridge = bridge[0];
       previousScheduledLifts = bridgeStatuses[bridge.name] ? bridgeStatuses[bridge.name].scheduledLifts : [];
       bridgeStatuses[bridge.name] = {
         status: event.status,
