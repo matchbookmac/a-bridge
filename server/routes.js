@@ -83,8 +83,8 @@ exports = module.exports = function (createUser, receiveActualEvent, receiveSche
             }
           },
           auth: 'simple',
-          description: 'Updates a user\'s token',
-          notes: 'If no token is passed in the payload, a new random token will be generated, otherwise, the user\'s token is set to the token in the payload',
+          description: 'Deletes a user and their token',
+          notes: 'Removes a user from the database, revoking their authentication',
           tags: ['secure', 'registration']
         }
       },
