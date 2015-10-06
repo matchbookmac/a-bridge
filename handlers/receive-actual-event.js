@@ -58,7 +58,7 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
       // If this is an 'down' event
       } else {
         // Clear uptime for bridge
-        bridgeStatuses[bridge.name].upTime = null;
+        delete bridgeStatuses[bridge.name].upTime;
         // If this is a stray 'down' event, do nothing
         if (bridgeOpenings.length === 0) {
           successResponse();
@@ -105,7 +105,6 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
           },
           limit: 5
         }).then(function (rows) {
-            logger.info("rows: " + rows);
             bridgeStatuses[bridge.name].lastFive = rows;
             if (next) next();
           })

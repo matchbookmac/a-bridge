@@ -18,11 +18,12 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
         return errorResponse('Could not find bridge: '+ bridge);
       }
       // Assemble current status for bridge
-      var currentStatus, currentScheduledLifts, lastFive;
+      var currentStatus, currentScheduledLifts, lastFive, upTime;
       if (bridgeStatuses[bridge.name]) {
         currentStatus = bridgeStatuses[bridge.name].status;
         currentScheduledLifts = bridgeStatuses[bridge.name].scheduledLifts;
         lastFive = bridgeStatuses[bridge.name].lastFive;
+        upTime = bridgeStatuses[bridge.name].upTime;
       } else {
         currentStatus = false;
         currentScheduledLifts = [];
@@ -35,6 +36,7 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
         scheduledLifts: currentScheduledLifts,
         lastFive: lastFive
       };
+      if (upTime) bridgeStatuses[bridge.name].upTime = upTime;
       event.bridgeId = bridge.id;
       bridgeStatuses.changed.bridge = bridge.name;
       bridgeStatuses.changed.item = "scheduledLifts";
