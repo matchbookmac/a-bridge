@@ -6,47 +6,39 @@ var async = require('async');
 exports = module.exports = function (logger, config, redisStore, db) {
   function mysql() {
     var Bridge = db.bridge;
-    Bridge.findOrCreate({ where:
-      {
-        name: 'hawthorne',
-        totalUpTime: { $gte: 0.0 },
-        avgUpTime: { $gte: 0.0 },
-        actualCount: { $gte: 0.0 },
-        scheduledCount: { $gte: 0.0 }
-      }
+    Bridge.create({
+      name: 'hawthorne',
+      totalUpTime: 0,
+      avgUpTime: 0,
+      actualCount: 0,
+      scheduledCount: 0
     }).then(function () {
       return;
     });
-    Bridge.findOrCreate({ where:
-      {
-        name: 'morrison',
-        totalUpTime: { $gte: 0.0 },
-        avgUpTime: { $gte: 0.0 },
-        actualCount: { $gte: 0.0 },
-        scheduledCount: { $gte: 0.0 }
-      }
+    Bridge.create({
+      name: 'morrison',
+      totalUpTime: 0,
+      avgUpTime: 0,
+      actualCount: 0,
+      scheduledCount: 0
     }).then(function () {
       return;
     });
-    Bridge.findOrCreate({ where:
-      {
-        name: 'burnside',
-        totalUpTime: { $gte: 0.0 },
-        avgUpTime: { $gte: 0.0 },
-        actualCount: { $gte: 0.0 },
-        scheduledCount: { $gte: 0.0 }
-      }
+    Bridge.create({
+      name: 'burnside',
+      totalUpTime: 0,
+      avgUpTime: 0,
+      actualCount: 0,
+      scheduledCount: 0
     }).then(function () {
       return;
     });
-    Bridge.findOrCreate({ where:
-      {
-        name: 'broadway',
-        totalUpTime: { $gte: 0.0 },
-        avgUpTime: { $gte: 0.0 },
-        actualCount: { $gte: 0.0 },
-        scheduledCount: { $gte: 0.0 }
-      }
+    Bridge.create({
+      name: 'broadway',
+      totalUpTime: 0,
+      avgUpTime: 0,
+      actualCount: 0,
+      scheduledCount: 0
     }).then(function () {
       return;
     });
