@@ -35,6 +35,8 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
       if (event.status){
         reply("event up post received");
         findLastFive();
+        // set upTime for bridge
+        bridgeStatuses[bridge.name].upTime = event.timeStamp;
         var actualEvent = {
           name: bridge.name,
           upTime: event.timeStamp,
@@ -55,6 +57,8 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
         bridgeOpenings.push(actualEvent);
       // If this is an 'down' event
       } else {
+        // Clear uptime for bridge
+        bridgeStatuses[bridge.name].upTime = null;
         // If this is a stray 'down' event, do nothing
         if (bridgeOpenings.length === 0) {
           successResponse();
