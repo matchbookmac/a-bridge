@@ -10,6 +10,7 @@ var options     = {};
 
 var bridge      = argv.b || argv.bridge;
 var defaultPath = argv.d || argv.defaultPath;
+var deleteUsr   = argv.D || argv.delete;
 var hostname    = argv.h || argv.hostname;
 var headers     = argv.H || argv.headers;
 var liftTime    = argv.l || argv.liftTime;
@@ -17,11 +18,13 @@ var method      = argv.m || argv.method;
 var multiple    = argv.M || argv.multiple || 1;
 var port        = argv.p || argv.port;
 var path        = argv.P || argv.path;
-var timeStamp   = argv.t || argv.timestamp || new Date();
 var status      = argv.s || argv.status;
 var scheduled   = argv.S || argv.scheduled;
+var timeStamp   = argv.t || argv.timestamp || new Date();
 var type        = argv.T || argv.type;
 var user        = argv.u || argv.user;
+var email       = argv.e || argv.email;
+var token       = argv.y || argv.token;
 var othMsgVals  = argv._;
 
 var message;
@@ -50,10 +53,26 @@ if (othMsgVals.length > 0) {
 }
 
 if (user) {
- message = {
-   email: user || "1234@thing.com"
- };
- path = '/users/new';
+  message = {
+    email: user || "1234@thing.com"
+  };
+  if (token) {
+    path = '/users/'+user+'/token';
+    message = {
+      token: token.toString() || '1234'
+    };
+    method = 'PATCH';
+  } else if (email) {
+    path = '/users/'+user+'/email';
+    message.email = email;
+    method = 'PATCH';
+  } else if (deleteUsr) {
+    path = '/users/'+user+'/destroy';
+    message = null;
+    method = 'DELETE';
+  } else {
+    path = '/users/new';
+  }
 }
 
 if (hostname) options.hostname = hostname;

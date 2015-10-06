@@ -1,6 +1,7 @@
 var crypto = require('crypto');
 var bcrypt = require('bcrypt');
 var injector = require('electrolyte');
+var async = require('async');
 
 exports = module.exports = function (logger, config, redisStore, db) {
   function mysql() {
@@ -56,7 +57,14 @@ exports = module.exports = function (logger, config, redisStore, db) {
         if (err) return logger.info(err);
         hashToken = hash;
         logger.info(hashToken);
-        redisStore.set('user@example.com', hashToken, function (err, res) {
+        async.parallel([
+          function (callback) {
+            redisStore.set('user@example.com', hashToken, callback);
+          },
+          function (callback) {
+            redisStore.sadd('users', 'user@example.com', callback);
+          }
+        ], function (err, res) {
           if (err) return logger.info(err);
           logger.info(res);
           logger.info('user@example.com with token 1234 has been set');

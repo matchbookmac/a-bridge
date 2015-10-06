@@ -1,10 +1,10 @@
-var redis = require("redis");
 var crypto = require('crypto');
 var bcrypt = require('bcrypt');
 var boom = require('boom');
+var async = require('async');
 
 exports = module.exports = function (logger, serverConfig, redisStore) {
-  function receiveActualEvent(request, reply) {
+  function createUser(request, reply) {
     var email = request.payload.email;
     redisStore.get(email, function (err, hashToken) {
       if (err) errorResponse(err);
@@ -18,7 +18,14 @@ exports = module.exports = function (logger, serverConfig, redisStore) {
             bcrypt.hash(token, salt, function(err, hash) {
               if (err) errorResponse(err);
               hashToken = hash;
-              redisStore.set(email, hashToken, function (err, res) {
+              async.parallel([
+                function (callback) {
+                  redisStore.set(email, hashToken, callback);
+                },
+                function (callback) {
+                  redisStore.sadd('users', email, callback);
+                }
+              ], function (err, res) {
                 if (err) errorResponse(err);
                 if (res) {
                   var response = reply({ email: email, token: token });
@@ -38,7 +45,7 @@ exports = module.exports = function (logger, serverConfig, redisStore) {
       return logger.error(err);
     }
   }
-  return receiveActualEvent;
+  return createUser;
 };
 
 exports['@singleton'] = true;
