@@ -9,10 +9,10 @@ exports = module.exports = function (logger, config, redisStore, db) {
     Bridge.findOrCreate({ where:
       {
         name: 'hawthorne',
-        totalUpTime: { $gte: 0 },
-        avgUpTime: { $gte: 0 },
-        actualCount: { $gte: 0.0 },
-        scheduledCount: { $gte: 0.0 }
+        totalUpTime: { $gte: 0.0 },
+        avgUpTime: { $gte: 0.0 },
+        actualCount: { $gte: 0 },
+        scheduledCount: { $gte: 0 }
       }
     }).then(function () {
       return;
@@ -20,10 +20,10 @@ exports = module.exports = function (logger, config, redisStore, db) {
     Bridge.findOrCreate({ where:
       {
         name: 'morrison',
-        totalUpTime: { $gte: 0 },
-        avgUpTime: { $gte: 0 },
-        actualCount: { $gte: 0.0 },
-        scheduledCount: { $gte: 0.0 }
+        totalUpTime: { $gte: 0.0 },
+        avgUpTime: { $gte: 0.0 },
+        actualCount: { $gte: 0 },
+        scheduledCount: { $gte: 0 }
       }
     }).then(function () {
       return;
@@ -31,10 +31,10 @@ exports = module.exports = function (logger, config, redisStore, db) {
     Bridge.findOrCreate({ where:
       {
         name: 'burnside',
-        totalUpTime: { $gte: 0 },
-        avgUpTime: { $gte: 0 },
-        actualCount: { $gte: 0.0 },
-        scheduledCount: { $gte: 0.0 }
+        totalUpTime: { $gte: 0.0 },
+        avgUpTime: { $gte: 0.0 },
+        actualCount: { $gte: 0 },
+        scheduledCount: { $gte: 0 }
       }
     }).then(function () {
       return;
@@ -42,10 +42,10 @@ exports = module.exports = function (logger, config, redisStore, db) {
     Bridge.findOrCreate({ where:
       {
         name: 'broadway',
-        totalUpTime: { $gte: 0 },
-        avgUpTime: { $gte: 0 },
-        actualCount: { $gte: 0.0 },
-        scheduledCount: { $gte: 0.0 }
+        totalUpTime: { $gte: 0.0 },
+        avgUpTime: { $gte: 0.0 },
+        actualCount: { $gte: 0 },
+        scheduledCount: { $gte: 0 }
       }
     }).then(function () {
       return;
