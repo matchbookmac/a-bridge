@@ -78,6 +78,7 @@ gulp.task('db:test:prepare', shell.task('sequelize db:migrate --config models/db
 
 gulp.task('db:seed:mysql', function () {
   seed.mysql();
+  redis.quit();
 });
 
 gulp.task('db:seed:redis', function () {
