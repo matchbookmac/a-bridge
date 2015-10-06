@@ -11,8 +11,8 @@ exports = module.exports = function (logger, config, redisStore, db) {
         name: 'hawthorne',
         totalUpTime: { $gte: 0 },
         avgUpTime: { $gte: 0 },
-        actualCount: { $gte: 0 },
-        scheduledCount: { $gte: 0 }
+        actualCount: { $gte: 0.0 },
+        scheduledCount: { $gte: 0.0 }
       }
     }).then(function () {
       return;
@@ -22,8 +22,8 @@ exports = module.exports = function (logger, config, redisStore, db) {
         name: 'morrison',
         totalUpTime: { $gte: 0 },
         avgUpTime: { $gte: 0 },
-        actualCount: { $gte: 0 },
-        scheduledCount: { $gte: 0 }
+        actualCount: { $gte: 0.0 },
+        scheduledCount: { $gte: 0.0 }
       }
     }).then(function () {
       return;
@@ -33,8 +33,8 @@ exports = module.exports = function (logger, config, redisStore, db) {
         name: 'burnside',
         totalUpTime: { $gte: 0 },
         avgUpTime: { $gte: 0 },
-        actualCount: { $gte: 0 },
-        scheduledCount: { $gte: 0 }
+        actualCount: { $gte: 0.0 },
+        scheduledCount: { $gte: 0.0 }
       }
     }).then(function () {
       return;
@@ -44,8 +44,8 @@ exports = module.exports = function (logger, config, redisStore, db) {
         name: 'broadway',
         totalUpTime: { $gte: 0 },
         avgUpTime: { $gte: 0 },
-        actualCount: { $gte: 0 },
-        scheduledCount: { $gte: 0 }
+        actualCount: { $gte: 0.0 },
+        scheduledCount: { $gte: 0.0 }
       }
     }).then(function () {
       return;
