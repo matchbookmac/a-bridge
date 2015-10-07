@@ -20,7 +20,7 @@ var port        = argv.p || argv.port;
 var path        = argv.P || argv.path;
 var status      = argv.s || argv.status;
 var scheduled   = argv.S || argv.scheduled;
-var timeStamp   = argv.t || argv.timestamp || new Date();
+var timeStamp   = argv.t || argv.timestamp || new Date().toUTCString();
 var type        = argv.T || argv.type;
 var user        = argv.u || argv.user;
 var email       = argv.e || argv.email;
@@ -30,13 +30,12 @@ var othMsgVals  = argv._;
 var message;
 if (scheduled) {
   if (defaultPath) path = '/bridges/events/scheduled';
-  var todayUTC = Date.now() + 1000 * 60 * 60 * 2;
-  var defaultLiftTime = new Date(0);
-  defaultLiftTime.setUTCMilliseconds(todayUTC);
+  var today2hrDelay = Date.now() + 1000 * 60 * 60 * 2;
+  var defaultLiftTime = new Date(today2hrDelay).toUTCString();
   message = {
     bridge:            bridge   ? bridge   : "bailey's bridge",
     type:              status   ? status   : "testing",
-    requestTime:       timeStamp.toString(),
+    requestTime:       timeStamp,
     estimatedLiftTime: liftTime ? liftTime : defaultLiftTime
   };
 } else {
@@ -44,7 +43,7 @@ if (scheduled) {
   message = {
     bridge:    bridge    ? bridge    : "bailey's bridge",
     status:    status    ? status    : true,
-    timeStamp: timeStamp ? timeStamp : (new Date()).toString()
+    timeStamp: timeStamp
   };
 }
 
