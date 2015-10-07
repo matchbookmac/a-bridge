@@ -87,8 +87,6 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
                   })
                 ]).then(updateBridge)
                   .catch(errorResponse);
-                // Relay the 'down' event to i-bridge
-                findLastFive(postAfterDelay);
               }
               bridgeOpenings.splice(i, 1);
             }
@@ -125,6 +123,8 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
           actualCount: count
         }).then(successResponse)
           .catch(errorResponse);
+        // Relay the 'down' event to i-bridge
+        findLastFive(postAfterDelay);
       }
       function postAfterDelay() {
         postBridgeMessage(bridgeStatuses, null, function (err, res, status) {
