@@ -30,7 +30,7 @@ exports = module.exports = function (logger, serverConfig, db, postBridgeMessage
         lastFive = [];
       }
       delete event.bridge;
-      currentScheduledLifts.splice(_.sortedLastIndex(currentScheduledLifts, event, 'estimatedLiftTime'), 0, event);
+      currentScheduledLifts.splice(_.sortedIndex(currentScheduledLifts, event, 'estimatedLiftTime'), 0, event);
       bridgeStatuses[bridge.name] = {
         status: currentStatus,
         scheduledLifts: currentScheduledLifts,
